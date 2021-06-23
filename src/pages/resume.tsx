@@ -1,43 +1,32 @@
 import React, { useState } from 'react';
 
 import {
-  Heading,
   VStack,
-  Box,
   FormControl,
   FormLabel,
-  NumberInput,
-  NumberInputField,
   RadioGroup,
   Radio,
   HStack,
-  Select,
   Button,
 } from '@chakra-ui/react';
 
 import { LanguageWithLevel } from 'types/Language.types';
 
 import { TextInput } from 'components/molecules/TextInput';
-import { Specializations } from 'components/organisms/Specializations';
 import { Languages } from 'components/organisms/Languages';
+import { Salary } from 'components/organisms/Salary';
+import { Skills } from 'components/organisms/Skills';
 import { FormSection } from 'components/templates/FormSection';
+import { PageTemplate } from 'components/templates/PageTemplate';
 
-const ONE_MILLION = 1_000_000;
-
-const RegistrationPage = () => {
-  const [specializations, setSpecializations] = useState<string[]>(['']);
+const ResumePage = () => {
+  const [skills, setSkills] = useState<string[]>(['']);
   const [languages, setLanguages] = useState<LanguageWithLevel[]>([
     { language: 'english', level: 'A1' },
   ]);
 
   return (
-    <VStack mt="calc(75px + 125px)">
-      <Box maxW="3xl" w="100%" mb="25px">
-        <Heading as="h2" size="2xl">
-          Резюме
-        </Heading>
-      </Box>
-
+    <PageTemplate title="Резюме">
       <VStack maxW="3xl" w="100%" spacing="90px">
         <FormSection label="Контактные данные">
           <TextInput label="Имя" placeholder="Иван" />
@@ -71,40 +60,19 @@ const RegistrationPage = () => {
             placeholder="Junior Java разработчик"
           />
 
-          <FormControl>
-            <FormLabel>Желамая зарплата</FormLabel>
-
-            <HStack>
-              <NumberInput
-                min={1}
-                max={ONE_MILLION}
-                flex="3"
-                defaultValue={40000}
-              >
-                <NumberInputField type="number" />
-              </NumberInput>
-
-              <Select
-                variant="rub"
-                flex="1"
-                bgColor="white"
-                borderWidth="1px"
-                borderStyle="solid"
-                borderColor="inherit"
-              >
-                <option value="rub">руб.</option>
-                <option value="usd">долларов</option>
-                <option value="eur">евро</option>
-              </Select>
-            </HStack>
-          </FormControl>
+          <Salary
+            label="Желаемая зарплата"
+            from={0}
+            setFrom={() => undefined}
+            to={1000}
+            setTo={() => undefined}
+            currency="rub"
+            setCurrency={() => undefined}
+          />
 
           <FormControl>
-            <FormLabel>Специализации</FormLabel>
-            <Specializations
-              specializations={specializations}
-              setSpecializations={setSpecializations}
-            />
+            <FormLabel>Навыки</FormLabel>
+            <Skills skills={skills} setSkills={setSkills} />
           </FormControl>
         </FormSection>
 
@@ -157,8 +125,8 @@ const RegistrationPage = () => {
       >
         Сохранить
       </Button>
-    </VStack>
+    </PageTemplate>
   );
 };
 
-export default RegistrationPage;
+export default ResumePage;

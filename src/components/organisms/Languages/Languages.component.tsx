@@ -1,11 +1,11 @@
 import React from 'react';
 
 import { VStack, HStack, Select, Button } from '@chakra-ui/react';
+import { DeleteIcon } from '@chakra-ui/icons';
 
 import type { Languages as LanguagesType, Level } from 'types/Language.types';
 
 import { LanguagesProps } from './Languages.interface';
-import { DeleteIcon } from '@chakra-ui/icons';
 
 const mapLanguageToText: Record<LanguagesType, string> = {
   english: 'Английский',
