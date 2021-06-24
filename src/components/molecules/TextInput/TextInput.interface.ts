@@ -1,7 +1,14 @@
 import React from 'react';
 
+export type TextInputTypes = 'text' | 'password';
+
 export type TextInputProps = {
   label: string;
+  labelColor?: string;
+
+  color?: string;
+  bgColor?: string;
+
   placeholder: string;
 
   value?: string;
@@ -11,4 +18,6 @@ export type TextInputProps = {
   name?: string;
   className?: string;
   error?: string;
+
+  type?: TextInputTypes;
 };

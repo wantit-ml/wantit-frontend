@@ -17,6 +17,10 @@ export const TextInput = ({
   className,
   name,
   error,
+  labelColor,
+  bgColor,
+  color,
+  type,
 }: TextInputProps): JSX.Element => {
   const handleChange: React.ChangeEventHandler<HTMLInputElement> = (e) => {
     onChange?.(e);
@@ -25,13 +29,15 @@ export const TextInput = ({
 
   return (
     <FormControl className={className}>
-      <FormLabel>{label}</FormLabel>
+      <FormLabel color={labelColor}>{label}</FormLabel>
       <Input
         name={name}
-        type="text"
+        type={type}
         placeholder={placeholder}
         onChange={handleChange}
         value={value}
+        color={color}
+        bgColor={bgColor}
       />
 
       {error && <FormHelperText color="red.500">{error}</FormHelperText>}

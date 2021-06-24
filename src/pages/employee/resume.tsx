@@ -117,7 +117,7 @@ const ResumePage = () => {
       </VStack>
 
       <Button
-        onClick={() => history.push('/')}
+        onClick={() => undefined}
         color="white"
         bgColor="green.500"
         _hover={{ bgColor: 'green.600' }}

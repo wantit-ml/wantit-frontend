@@ -5,7 +5,7 @@ import { chakra, Link, Avatar } from '@chakra-ui/react';
 export const Header = (): JSX.Element => {
   return (
     <chakra.header
-      zIndex="5"
+      zIndex="15"
       display="flex"
       alignItems="center"
       justifyContent="flex-end"
