@@ -1,16 +1,31 @@
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  min-height: 100%;
+}
+
+.with-main-background {
+  background: url('../public/main-background.png') center;
+}
+
+.with-auth-background {
+  background: url('../public/auth-background.png') center no-repeat;
+  background-size: cover;
+}
+
+body {
+  height: 100%;
+  background: transparent !important;
+}
+
 html,
 body {
   padding: 0;
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
     Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
-}
-
-a {
-  color: inherit;
-  text-decoration: none;
-}
-
-* {
-  box-sizing: border-box;
 }
