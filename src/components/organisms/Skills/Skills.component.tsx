@@ -9,41 +9,37 @@ import {
 } from '@chakra-ui/react';
 import { DeleteIcon } from '@chakra-ui/icons';
 
-import { SpecializationsProps } from './Specializations.interface';
+import { SpecializationsProps } from './Skills.interface';
 
-export const Specializations = ({
-  setSpecializations,
-  specializations,
+export const Skills = ({
+  setSkills,
+  skills,
   className,
 }: SpecializationsProps): JSX.Element => {
-  const changeSpecialization =
+  const changeSkill =
     (index: number): React.ChangeEventHandler<HTMLInputElement> =>
     (event) => {
-      setSpecializations(
-        specializations.map((specialization, idx) =>
-          idx === index ? event.target.value : specialization
-        )
+      setSkills(
+        skills.map((skill, idx) => (idx === index ? event.target.value : skill))
       );
     };
 
-  const deleteSpecialization = (index: number) => () => {
-    setSpecializations(
-      specializations.filter((specialization, idx) => idx !== index)
-    );
+  const deleteSkill = (index: number) => () => {
+    setSkills(skills.filter((skill, idx) => idx !== index));
   };
 
-  const addSpecialization = () => {
-    setSpecializations([...specializations, '']);
+  const addSkill = () => {
+    setSkills([...skills, '']);
   };
 
   return (
     <VStack spacing="18px" alignItems="flex-start" className={className}>
-      {specializations.map((specialization, idx) => (
+      {skills.map((skill, idx) => (
         <InputGroup key={idx}>
-          <Input value={specialization} onChange={changeSpecialization(idx)} />
+          <Input value={skill} onChange={changeSkill(idx)} />
           <InputRightElement>
             <DeleteIcon
-              onClick={deleteSpecialization(idx)}
+              onClick={deleteSkill(idx)}
               _hover={{ cursor: 'pointer' }}
             />
           </InputRightElement>
@@ -57,9 +53,9 @@ export const Specializations = ({
         fontWeight="medium"
         _hover={{ textDecoration: 'none' }}
         _active={{ focus: 'none' }}
-        onClick={addSpecialization}
+        onClick={addSkill}
       >
-        Добавить специализации
+        Добавить навык
       </Button>
     </VStack>
   );

@@ -1,1 +1,1 @@
-export type ScheduleProps = {};
+export type ScheduleProps = never;
