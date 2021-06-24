@@ -1,4 +1,4 @@
-export type Languages = 'english' | 'french' | 'german';
+export type Languages = 'russian' | 'english' | 'french' | 'german';
 
 export type Level = 'A1' | 'A2' | 'B1' | 'B2' | 'C1' | 'C2';
 

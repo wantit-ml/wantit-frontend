@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 
 import { Box, VStack, Button, Heading, Link, chakra } from '@chakra-ui/react';
 
@@ -17,6 +17,12 @@ export const AuthForm = ({
   changeRoleLink,
   changeRoleText,
 }: AuthFormProps): JSX.Element => {
+  useEffect(() => {
+    const html = document.querySelector('html');
+    html?.classList.add('with-auth-background');
+    return () => html?.classList.add('with-auth-background');
+  }, []);
+
   return (
     <Box
       position="relative"
