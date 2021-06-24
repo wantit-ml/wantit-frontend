@@ -8,6 +8,7 @@ import type { Languages as LanguagesType, Level } from 'types/Language.types';
 import { LanguagesProps } from './Languages.interface';
 
 const mapLanguageToText: Record<LanguagesType, string> = {
+  russian: 'Русский',
   english: 'Английский',
   french: 'Французкий',
   german: 'Немецкий',
