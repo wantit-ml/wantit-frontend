@@ -10,6 +10,7 @@ import {
 } from '@chakra-ui/react';
 
 import { TextInput } from 'components/molecules/TextInput';
+import { Editor } from 'components/organisms/Editor';
 import { Salary } from 'components/organisms/Salary';
 import { Skills } from 'components/organisms/Skills';
 import { PageTemplate } from 'components/templates/PageTemplate';
@@ -30,6 +31,11 @@ const VacancyPage = (): JSX.Element => {
           <FormControl>
             <FormLabel>Навыки</FormLabel>
             <Skills skills={skills} setSkills={setSkills} />
+          </FormControl>
+
+          <FormControl>
+            <FormLabel>Описание</FormLabel>
+            <Editor />
           </FormControl>
 
           <Salary
@@ -71,7 +77,7 @@ const VacancyPage = (): JSX.Element => {
       </VStack>
 
       <Button
-        onClick={() => history.push('/')}
+        onClick={() => undefined}
         color="white"
         bgColor="green.500"
         _hover={{ bgColor: 'green.600' }}
