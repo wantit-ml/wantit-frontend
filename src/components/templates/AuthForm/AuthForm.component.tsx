@@ -1,6 +1,8 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 
 import { Box, VStack, Button, Heading, Link, chakra } from '@chakra-ui/react';
+
+import { useHtmlClassname } from 'hooks/useHtmlClassname.hook';
 
 import { AuthFormProps } from './AuthForm.interface';
 
@@ -17,11 +19,7 @@ export const AuthForm = ({
   changeRoleLink,
   changeRoleText,
 }: AuthFormProps): JSX.Element => {
-  useEffect(() => {
-    const html = document.querySelector('html');
-    html?.classList.add('with-auth-background');
-    return () => html?.classList.add('with-auth-background');
-  }, []);
+  useHtmlClassname('with-auth-background');
 
   return (
     <Box

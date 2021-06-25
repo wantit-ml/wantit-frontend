@@ -10,7 +10,7 @@ import {
   Button,
 } from '@chakra-ui/react';
 
-import { LanguageWithLevel } from 'types/Language.types';
+import { Languages as LanguagesTypes } from 'types/Language.types';
 
 import { TextInput } from 'components/molecules/TextInput';
 import { Languages } from 'components/organisms/Languages';
@@ -21,9 +21,7 @@ import { PageTemplate } from 'components/templates/PageTemplate';
 
 const ResumePage = () => {
   const [skills, setSkills] = useState<string[]>(['']);
-  const [languages, setLanguages] = useState<LanguageWithLevel[]>([
-    { language: 'english', level: 'A1' },
-  ]);
+  const [languages, setLanguages] = useState<LanguagesTypes[]>(['english']);
 
   return (
     <PageTemplate title="Резюме">

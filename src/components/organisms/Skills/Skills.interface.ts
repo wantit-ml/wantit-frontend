@@ -1,6 +1,13 @@
 export type SpecializationsProps = {
-  skills: string[];
-  setSkills: (specials: string[]) => void;
-
   className?: string;
-};
+} & (
+  | {
+      skills: string[];
+      setSkills: (specials: string[]) => void;
+      readonly?: false;
+    }
+  | {
+      skills: string[];
+      readonly: true;
+    }
+);
