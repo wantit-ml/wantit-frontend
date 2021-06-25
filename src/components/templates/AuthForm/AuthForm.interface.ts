@@ -10,5 +10,5 @@ export type AuthFormProps = {
   changeRoleText: string;
   changeRoleLink: string;
 
-  onButtonClick: () => void;
+  onSubmit: () => void;
 };

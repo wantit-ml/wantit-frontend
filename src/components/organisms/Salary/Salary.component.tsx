@@ -17,19 +17,13 @@ const ONE_MILLION = 1_000_000;
 
 export const Salary = ({
   currency,
-  from,
+  value,
   setCurrency,
-  setFrom,
-  setTo,
-  to,
+  setValue,
   label,
 }: SalaryProps): JSX.Element => {
-  const handleFromChange: React.ChangeEventHandler<HTMLInputElement> = (e) => {
-    setFrom(Number(e.target.value));
-  };
-
-  const handleToChange: React.ChangeEventHandler<HTMLInputElement> = (e) => {
-    setTo(Number(e.target.value));
+  const handleChange: React.ChangeEventHandler<HTMLInputElement> = (e) => {
+    setValue(Number(e.target.value));
   };
 
   const handleCurrencyChange: React.ChangeEventHandler<HTMLSelectElement> = (
@@ -46,16 +40,8 @@ export const Salary = ({
         <NumberInput min={1} max={ONE_MILLION} flex="1" placeholder="от">
           <NumberInputField
             type="number"
-            value={from}
-            onChange={handleFromChange}
-          />
-        </NumberInput>
-
-        <NumberInput min={1} max={ONE_MILLION} flex="1" placeholder="до">
-          <NumberInputField
-            type="number"
-            value={to}
-            onChange={handleToChange}
+            value={value}
+            onChange={handleChange}
           />
         </NumberInput>
 

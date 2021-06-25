@@ -24,6 +24,7 @@ const VacancyPage = (): JSX.Element => {
       <VStack maxW="3xl" w="100%" spacing="90px">
         <FormSection label="Основная информация">
           <TextInput
+            id="title"
             label="Название вакансии"
             placeholder="Junior Java разработчик"
           />
@@ -40,10 +41,8 @@ const VacancyPage = (): JSX.Element => {
 
           <Salary
             label="Предполагаемый  уровень дохода"
-            from={0}
-            setFrom={() => undefined}
-            to={1000}
-            setTo={() => undefined}
+            value={0}
+            setValue={() => undefined}
             currency="rub"
             setCurrency={() => undefined}
           />

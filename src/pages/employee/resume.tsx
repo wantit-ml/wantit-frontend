@@ -60,7 +60,7 @@ const ResumePage = () => {
 
           <Salary
             label="Желаемая зарплата"
-            from={0}
+            value={0}
             setFrom={() => undefined}
             to={1000}
             setTo={() => undefined}
