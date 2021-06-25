@@ -1,6 +1,13 @@
-import { LanguageWithLevel } from 'types/Language.types';
+import { Languages } from 'types/Language.types';
 
 export type LanguagesProps = {
-  languages: LanguageWithLevel[];
-  setLanguages: (languages: LanguageWithLevel[]) => void;
-};
+  languages: Languages[];
+} & (
+  | {
+      setLanguages: (languages: Languages[]) => void;
+      readonly?: false;
+    }
+  | {
+      readonly: true;
+    }
+);

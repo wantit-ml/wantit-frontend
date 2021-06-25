@@ -24,8 +24,8 @@ export type Employee = {
   telegram_id: string;
 };
 
-export const mockEmployee: Employee = {
-  user_id: 1,
+export const mockEmployee = (): Employee => ({
+  user_id: Math.random(),
   name: 'Максим',
   surname: 'Умутаев',
   city: 'Среднеуральск',
@@ -45,4 +45,14 @@ export const mockEmployee: Employee = {
   github_id: 'umutaev',
   vk_id: 'm0x1im',
   telegram_id: 'NotHimNotAtAll',
-};
+});
+
+export const mockEmployees: Employee[] = [
+  mockEmployee(),
+  mockEmployee(),
+  mockEmployee(),
+  mockEmployee(),
+  mockEmployee(),
+  mockEmployee(),
+  mockEmployee(),
+];

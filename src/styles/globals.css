@@ -9,12 +9,18 @@ html {
 }
 
 .with-main-background {
-  background: url('../public/main-background.png') center;
+  background: url('../public/main-background.jpg') center no-repeat;
+  background-size: 100% 100%;
 }
 
 .with-auth-background {
-  background: url('../public/auth-background.png') center no-repeat;
-  background-size: cover;
+  background: url('../public/auth-background.jpg') center no-repeat;
+  background-size: 100% 100%;
+}
+
+.with-feed-background {
+  background: url('../public/feed-background.jpg') center no-repeat;
+  background-size: 100% 100%;
 }
 
 body {
