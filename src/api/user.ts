@@ -9,53 +9,6 @@ export type LoginData = {
 	username: string,
 	password: string,
 }
-/*
-{
-  "identifier": 1,
-  "name": "string",
-  "surname": "string",
-  "city": "string",
-  "birthday": "2021-06-24T11:10:19.842Z",
-  "gender": "string",
-  "citizenships": [
-    "string"
-  ],
-  "rank": "string",
-  "salary": 0,
-  "currency": "string",
-  "stack": [
-    "string"
-  ],
-  "school": "string",
-  "age": 0,
-  "native_language": "string",
-  "foreign_languages": [
-    "string"
-  ],
-  "can_move": "string",
-  "metro_station": "string",
-  "github_id": "string",
-  "vk_id": "string",
-  "telegram_id": "string",
-  "timetable": [
-    {
-        "day": "day",
-        "time": "time"
-    }
-  ],
-  "achievements": [
-    {
-        "type": "Type",
-		"title": "Title",
-		"level": "Level",
-		"role": "Role",
-		"file": "File",
-		"description": "Description"
-    }
-  ]
-}
-
-*/
 
 export type Timetable = {
 	day: string,
@@ -156,3 +109,21 @@ export const fillAbout = async (data: FillAboutData) => {
 		return (response.text())
 	}
 }
+
+export const getAbout = async (identifier: string | number) => {
+	let id: string;
+	if (typeof identifier === "number"){
+		id = identifier.toString()
+	}
+	else {
+		id = identifier
+	}
+	const response = await fetch(host + "/user/get_about" + "?identifier=" + id)
+	if (response.ok){
+		return await response.json()
+	}
+	else {
+		throw "NotFound"
+	}
+}
+
