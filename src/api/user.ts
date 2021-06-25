@@ -1,4 +1,4 @@
-export type NewUserData = {
+export type UserData = {
 	username: string,
 	email: string,
 	phone: string,
@@ -24,7 +24,7 @@ export type Achievement = {
 	description: string,
 }
 
-export type FillAboutData = {
+export type AboutData = {
 	identifier: string | number,
 	name: string,
 	surname: string,
@@ -53,7 +53,7 @@ let host = process.env["WANTIT_BACK"]
 if (!host)
 	host = "localhost/api"
 
-export const newUser = async (data: NewUserData) => {
+export const newUser = async (data: UserData): Promise<string> => {
 	const response = await fetch(
 		host + "/auth/registration",
 		{
@@ -72,7 +72,7 @@ export const newUser = async (data: NewUserData) => {
 	}
 }
 
-export const login = async (data: LoginData) => {
+export const login = async (data: LoginData): Promise<string> => {
 	const response = await fetch(
 		host + "/auth/get_session",
 		{
@@ -91,7 +91,7 @@ export const login = async (data: LoginData) => {
 	}
 }
 
-export const fillAbout = async (data: FillAboutData) => {
+export const fillAbout = async (data: AboutData): Promise<string> => {
 	const response = await fetch(
 		host + "/user/fill_about",
 		{
@@ -110,7 +110,7 @@ export const fillAbout = async (data: FillAboutData) => {
 	}
 }
 
-export const getAbout = async (identifier: string | number) => {
+export const getAbout = async (identifier: string | number): Promise<AboutData> => {
 	let id: string;
 	if (typeof identifier === "number"){
 		id = identifier.toString()

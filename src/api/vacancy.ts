@@ -1,4 +1,4 @@
-export type CreateVacancyData  = {
+export type VacancyData  = {
 	user_identifier: number | string,
 	title: string,
 	vacancy_code: string,
@@ -19,7 +19,7 @@ let host = process.env["WANTIT_BACK"]
 if (!host)
 	host = "localhost/api"
 
-export const createVacancy = async (data: CreateVacancyData) => {
+export const createVacancy = async (data: VacancyData): Promise<string> => {
 	const response = await fetch(
 		host + "/vacancy/create_vacancy_db",
 		{
@@ -38,7 +38,7 @@ export const createVacancy = async (data: CreateVacancyData) => {
 	}
 }
 
-export const getVacancyByUserId = async (identifier: string | number) => {
+export const getVacancyByUserId = async (identifier: string | number): Promise<VacancyData> => {
 	let id: string;
 	if (typeof identifier === "number") {
 		id = identifier.toString()
@@ -55,7 +55,7 @@ export const getVacancyByUserId = async (identifier: string | number) => {
 	}
 }
 
-export const getVacancyById = async (identifier: number) => {
+export const getVacancyById = async (identifier: number): Promise<VacancyData> => {
 	const id = identifier.toString()
 	const response = await fetch(host + "/vacancy/get_by_id" + "?vacancy_id=" + id)
 	if (response.ok) {

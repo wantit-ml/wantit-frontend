@@ -1,4 +1,4 @@
-export type NewCompanyData = {
+export type CompanyData = {
 	user_identifier: number,
 	title: string,
 	phone: string,
@@ -12,7 +12,7 @@ let host = process.env["WANTIT_BACK"]
 if (!host)
 	host = "localhost/api"
 
-export const newCompany = async (data: NewCompanyData) => {
+export const newCompany = async (data: CompanyData): Promise<string> => {
 	const response = await fetch(
 		host + "/company/create",
 		{
@@ -31,7 +31,7 @@ export const newCompany = async (data: NewCompanyData) => {
 	}
 }
 
-export const getCompanyByUserId = async (identifier: string | number) => {
+export const getCompanyByUserId = async (identifier: string | number): Promise<CompanyData> => {
 	let id: string;
 	if (typeof identifier === "number") {
 		id = identifier.toString()
@@ -48,7 +48,7 @@ export const getCompanyByUserId = async (identifier: string | number) => {
 	}
 }
 
-export const getCompanyById = async (identifier: number) => {
+export const getCompanyById = async (identifier: number): Promise<CompanyData> => {
 	const company_id = identifier.toString()
 
 	const response = await fetch(host + "/company/get_by_id" + "?company_id=" + company_id)

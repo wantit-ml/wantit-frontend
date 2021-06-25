@@ -2,7 +2,7 @@ let host = process.env["WANTIT_BACK"]
 if (!host)
 	host = "localhost/api"
 
-export const getMatchingUsers = async (identifier: number) => {
+export const getMatchingUsers = async (identifier: number): Promise<number[]> => {
 	const id = identifier.toString()
 	const response = await fetch(host + "/vacancy/get_matching_users" + "?vacancy_id=" + id)
 	if (response.ok) {
@@ -13,7 +13,7 @@ export const getMatchingUsers = async (identifier: number) => {
 	}
 }
 
-export const getMatchingVacancies = async (identifier: string | number) => {
+export const getMatchingVacancies = async (identifier: string | number): Promise<number[]> => {
 	let id: string;
 	if (typeof identifier === "number") {
 		id = identifier.toString()
