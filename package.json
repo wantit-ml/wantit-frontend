@@ -20,6 +20,7 @@
     "@chakra-ui/react": "^1.6.4",
     "@emotion/react": "^11",
     "@emotion/styled": "^11",
+    "@types/node": "^15.12.4",
     "framer-motion": "^4",
     "next": "11.0.0",
     "prosemirror-commands": "^1.1.9",
