@@ -68,6 +68,7 @@ const EmployeeRegisterPage = (): JSX.Element => {
             error={errors.login?.message}
           />
           <TextInput
+            id="password"
             label="Пароль"
             placeholder="example"
             bgColor="white"

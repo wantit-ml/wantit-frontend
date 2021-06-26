@@ -29,7 +29,7 @@ export const TextInput = forwardRef<HTMLInputElement, TextInputProps>(
       labelColor,
       bgColor,
       color,
-      type,
+      type = 'text',
       id,
     },
     ref

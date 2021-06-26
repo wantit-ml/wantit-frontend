@@ -105,7 +105,7 @@ const VacancyPage = (): JSX.Element => {
             </FormLabel>
             <MDEditor
               value={watch('description')}
-              onChange={(value) => setValue('description', value)}
+              onChange={(value) => setValue('description', value ?? '')}
               id="description"
             />
           </FormControl>
@@ -114,8 +114,8 @@ const VacancyPage = (): JSX.Element => {
             label="Предполагаемый  уровень дохода"
             currency={currency}
             setCurrency={setCurrency}
-            value={watch('salary')}
-            setValue={(v) => setValue('salary', v)}
+            value={String(watch('salary'))}
+            setValue={(v) => setValue('salary', Number(v))}
             error={errors.salary?.message}
           />
         </FormSection>
