@@ -1,7 +1,8 @@
-import React from 'react';
+import React, { forwardRef } from 'react';
 
 import {
   FormControl,
+  FormHelperText,
   FormLabel,
   HStack,
   NumberInput,
@@ -15,51 +16,59 @@ import { SalaryProps } from './Salary.interface';
 
 const ONE_MILLION = 1_000_000;
 
-export const Salary = ({
-  currency,
-  value,
-  setCurrency,
-  setValue,
-  label,
-}: SalaryProps): JSX.Element => {
-  const handleChange: React.ChangeEventHandler<HTMLInputElement> = (e) => {
-    setValue(Number(e.target.value));
-  };
+export const Salary = forwardRef<HTMLInputElement, SalaryProps>(
+  (
+    { currency, setCurrency, label, setValue, value, error },
+    ref
+  ): JSX.Element => {
+    const handleCurrencyChange: React.ChangeEventHandler<HTMLSelectElement> = (
+      e
+    ) => {
+      setCurrency(e.target.value as Currency);
+    };
 
-  const handleCurrencyChange: React.ChangeEventHandler<HTMLSelectElement> = (
-    e
-  ) => {
-    setCurrency(e.target.value as Currency);
-  };
+    return (
+      <FormControl>
+        <FormLabel id="salary-label" htmlFor="salary">
+          {label}
+        </FormLabel>
 
-  return (
-    <FormControl>
-      <FormLabel>{label}</FormLabel>
-
-      <HStack>
-        <NumberInput min={1} max={ONE_MILLION} flex="1" placeholder="от">
-          <NumberInputField
-            type="number"
+        <HStack>
+          <NumberInput
+            flex="3"
+            ref={ref}
+            min={1}
+            max={ONE_MILLION}
+            onChange={setValue}
             value={value}
-            onChange={handleChange}
-          />
-        </NumberInput>
+          >
+            <NumberInputField
+              placeholder="от"
+              id="salary"
+              type="number"
+              onChange={console.log}
+            />
+          </NumberInput>
 
-        <Select
-          variant="rub"
-          value={currency}
-          onChange={handleCurrencyChange}
-          flex="1"
-          bgColor="white"
-          borderWidth="1px"
-          borderStyle="solid"
-          borderColor="inherit"
-        >
-          <option value="rub">руб.</option>
-          <option value="usd">долларов</option>
-          <option value="eur">евро</option>
-        </Select>
-      </HStack>
-    </FormControl>
-  );
-};
+          <Select
+            variant="rub"
+            value={currency}
+            onChange={handleCurrencyChange}
+            flex="1"
+            bgColor="white"
+            borderWidth="1px"
+            borderStyle="solid"
+            borderColor="inherit"
+            id="currency"
+          >
+            <option value="rub">руб.</option>
+            <option value="usd">долларов</option>
+            <option value="eur">евро</option>
+          </Select>
+        </HStack>
+
+        {error && <FormHelperText color="red.500">{error}</FormHelperText>}
+      </FormControl>
+    );
+  }
+);

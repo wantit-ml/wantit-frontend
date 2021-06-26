@@ -42,11 +42,28 @@ export const Languages = (props: LanguagesProps): JSX.Element => {
     props.setLanguages(languages.filter((language) => language !== lang));
   };
 
+  const handleLanguageChange =
+    (idx: number): React.ChangeEventHandler<HTMLSelectElement> =>
+    (e) => {
+      if (props.readonly) {
+        return;
+      }
+
+      props.setLanguages(
+        languages.map((lang, index) => {
+          if (index == idx) {
+            return e.target.value as LanguagesType;
+          }
+          return lang as LanguagesType;
+        })
+      );
+    };
+
   return (
     <VStack alignItems="flex-start">
-      {languages.map((language) => (
+      {languages.map((language, idx) => (
         <HStack spacing="5px" key={language}>
-          <Select value={language}>
+          <Select value={language} onChange={handleLanguageChange(idx)}>
             {Object.entries(mapLanguageToText).map(([language, text]) =>
               props.readonly ? (
                 <Text key={language}>{text}</Text>

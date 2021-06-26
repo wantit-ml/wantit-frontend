@@ -45,10 +45,11 @@ export const Skills = (props: SpecializationsProps): JSX.Element => {
           <Input
             value={skill}
             onChange={changeSkill(idx)}
-            readonly={props.readonly}
+            readOnly={props.readonly}
+            id={`skill-input-${idx}`}
           />
 
-          {!props.readonly && (
+          {!props.readonly && props.skills.length > 1 && (
             <InputRightElement>
               <DeleteIcon
                 onClick={deleteSkill(idx)}
