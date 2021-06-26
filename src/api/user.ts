@@ -1,3 +1,5 @@
+import {host} from "./settings";
+
 export type UserData = {
 	username: string,
 	email: string,
@@ -49,32 +51,28 @@ export type AboutData = {
 	achievements: Achievement[],
 }
 
-let host = process.env["WANTIT_BACK"]
-if (!host)
-	host = "localhost/api"
-
 export const newUser = async (data: UserData): Promise<string> => {
 	const response = await fetch(
-		host + "/auth/registration",
+		`${host}/auth/registration`,
 		{
-			body: JSON.stringify(data),	
+			body: JSON.stringify(data),
 			headers: {
 				'Content-Type': 'application/json'
 			},
 			method: 'POST'
 		},
 	)
-	if(response.ok){
+
+	if (response.ok){
 		return "ok";
 	}
-	else{
-		return(response.text())
-	}
+
+	return response.text();
 }
 
 export const login = async (data: LoginData): Promise<string> => {
 	const response = await fetch(
-		host + "/auth/get_session",
+		`${host}/auth/get_session`,
 		{
 			body: JSON.stringify(data),
 			headers: {
@@ -83,17 +81,17 @@ export const login = async (data: LoginData): Promise<string> => {
 			method: 'POST'
 		},
 	)
+
 	if (response.ok) {
 		return "ok";
 	}
-	else {
-		return (response.text())
-	}
+
+	return response.text()
 }
 
 export const fillAbout = async (data: AboutData): Promise<string> => {
 	const response = await fetch(
-		host + "/user/fill_about",
+		`${host}/user/fill_about`,
 		{
 			body: JSON.stringify(data),
 			headers: {
@@ -102,28 +100,20 @@ export const fillAbout = async (data: AboutData): Promise<string> => {
 			method: 'POST'
 		},
 	)
+
 	if (response.ok) {
 		return "ok";
 	}
-	else {
-		return (response.text())
-	}
+
+  return response.text()
 }
 
 export const getAbout = async (identifier: string | number): Promise<AboutData> => {
-	let id: string;
-	if (typeof identifier === "number"){
-		id = identifier.toString()
-	}
-	else {
-		id = identifier
-	}
-	const response = await fetch(host + "/user/get_about" + "?identifier=" + id)
-	if (response.ok){
-		return await response.json()
-	}
-	else {
-		throw "NotFound"
-	}
-}
+	const response = await fetch(`${host}/user/get_about?identifier=${identifier}`)
 
+	if (response.ok){
+		return response.json()
+	}
+
+  throw new Error("NotFound");
+}

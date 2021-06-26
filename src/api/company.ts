@@ -1,3 +1,5 @@
+import {host} from "./settings";
+
 export type CompanyData = {
 	user_identifier: number,
 	title: string,
@@ -8,13 +10,9 @@ export type CompanyData = {
 	address: string,
 }
 
-let host = process.env["WANTIT_BACK"]
-if (!host)
-	host = "localhost/api"
-
-export const newCompany = async (data: CompanyData): Promise<string> => {
+export const createCompany = async (data: CompanyData): Promise<string> => {
 	const response = await fetch(
-		host + "/company/create",
+		`${host}/company/create`,
 		{
 			body: JSON.stringify(data),
 			headers: {
@@ -23,39 +21,29 @@ export const newCompany = async (data: CompanyData): Promise<string> => {
 			method: 'POST'
 		},
 	)
+
 	if (response.ok) {
 		return "ok";
 	}
-	else {
-		return (response.text())
-	}
+
+	return response.text()
 }
 
 export const getCompanyByUserId = async (identifier: string | number): Promise<CompanyData> => {
-	let id: string;
-	if (typeof identifier === "number") {
-		id = identifier.toString()
-	}
-	else {
-		id = identifier
-	}
-	const response = await fetch(host + "/company/get_by_user" + "?user_identifier=" + id)
+	const response = await fetch(`${host}/company/get_by_user?user_identifier=${identifier}`)
+
 	if (response.ok) {
-		return await response.json()
+		return response.json()
 	}
-	else {
-		throw "NotFound"
-	}
+
+	throw new Error("NotFound");
 }
 
 export const getCompanyById = async (identifier: number): Promise<CompanyData> => {
-	const company_id = identifier.toString()
-
-	const response = await fetch(host + "/company/get_by_id" + "?company_id=" + company_id)
+	const response = await fetch(`${host}/company/get_by_id?company_id=${identifier}`);
 	if (response.ok) {
-		return await response.json()
+		return response.json()
 	}
-	else {
-		throw "NotFound"
-	}
+
+	throw new Error("NotFound");
 }

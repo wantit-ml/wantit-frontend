@@ -1,31 +1,21 @@
-let host = process.env["WANTIT_BACK"]
-if (!host)
-	host = "localhost/api"
+import {host} from "./settings";
 
 export const getMatchingUsers = async (identifier: number): Promise<number[]> => {
-	const id = identifier.toString()
-	const response = await fetch(host + "/vacancy/get_matching_users" + "?vacancy_id=" + id)
+	const response = await fetch(`${host}/vacancy/get_matching_users?vacancy_id=${identifier}`)
+
 	if (response.ok) {
-		return await response.json()
+		return response.json();
 	}
-	else {
-		throw "NotFound"
-	}
+
+	throw new Error("NotFound");
 }
 
 export const getMatchingVacancies = async (identifier: string | number): Promise<number[]> => {
-	let id: string;
-	if (typeof identifier === "number") {
-		id = identifier.toString()
-	}
-	else {
-		id = identifier
-	}
-	const response = await fetch(host + "get_matching_vacancies" + "?user_identifier=" + id)
+	const response = await fetch(`${host}/get_matching_vacancies?user_identifier=${identifier}`)
+
 	if (response.ok) {
-		return await response.json()
+		return response.json()
 	}
-	else {
-		throw "NotFound"
-	}
+
+		throw new Error("NotFound");
 }

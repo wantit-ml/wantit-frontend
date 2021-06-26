@@ -1,3 +1,5 @@
+import {host} from "./settings";
+
 export type VacancyData  = {
 	user_identifier: number | string,
 	title: string,
@@ -8,20 +10,16 @@ export type VacancyData  = {
 	salary: number,
 	currency: string,
 	city: string,
-	address: string, 
+	address: string,
 	type_of_vacancy: string,
 	author: string,
 	phone: string,
 	email: string,
 }
 
-let host = process.env["WANTIT_BACK"]
-if (!host)
-	host = "localhost/api"
-
 export const createVacancy = async (data: VacancyData): Promise<string> => {
 	const response = await fetch(
-		host + "/vacancy/create_vacancy_db",
+		`${host}/vacancy/create_vacancy_db`,
 		{
 			body: JSON.stringify(data),
 			headers: {
@@ -30,38 +28,29 @@ export const createVacancy = async (data: VacancyData): Promise<string> => {
 			method: 'POST'
 		},
 	)
+
 	if (response.ok) {
 		return "ok";
 	}
-	else {
-		return (response.text())
-	}
+
+	return response.text();
 }
 
 export const getVacancyByUserId = async (identifier: string | number): Promise<VacancyData> => {
-	let id: string;
-	if (typeof identifier === "number") {
-		id = identifier.toString()
-	}
-	else {
-		id = identifier
-	}
-	const response = await fetch(host + "/vacancy/get_by_user_id" + "?user_identifier=" + id)
-	if (response.ok) {
-		return await response.json()
-	}
-	else {
-		throw "NotFound"
-	}
+	const response = await fetch(`${host}/vacancy/get_by_user_id?user_identifier=${identifier}`)
+
+	if (response.ok)
+		return response.json()
+
+	throw new Error("NotFound");
 }
 
 export const getVacancyById = async (identifier: number): Promise<VacancyData> => {
-	const id = identifier.toString()
-	const response = await fetch(host + "/vacancy/get_by_id" + "?vacancy_id=" + id)
+	const response = await fetch(`${host}/vacancy/get_by_id?vacancy_id=${identifier}`)
+
 	if (response.ok) {
 		return await response.json()
 	}
-	else {
-		throw "NotFound"
-	}
+
+	throw new Error("NotFound");
 }
