@@ -1,15 +1,16 @@
 import React from 'react';
 
-export type TextInputTypes = 'text' | 'password';
+export type TextInputTypes = 'email' | 'text' | 'password';
 
 export type TextInputProps = {
   label: string;
   labelColor?: string;
+  placeholder: string;
+
+  id: string;
 
   color?: string;
   bgColor?: string;
-
-  placeholder: string;
 
   value?: string;
   setValue?: (v: string) => void;

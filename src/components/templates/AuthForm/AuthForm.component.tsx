@@ -10,10 +10,12 @@ const StyledLink = chakra(Link, {
   baseStyle: { color: 'white', textDecoration: 'underline' },
 });
 
+const Form = chakra.form;
+
 export const AuthForm = ({
   children,
   label,
-  onButtonClick,
+  onSubmit,
   changeAuthMethodLink,
   changeAuthMethodText,
   changeRoleLink,
@@ -22,13 +24,14 @@ export const AuthForm = ({
   useHtmlClassname('with-auth-background');
 
   return (
-    <Box
+    <Form
       position="relative"
       borderRadius="20px"
       padding="20px 70px"
       width="100%"
       height="100%"
       maxWidth="700px"
+      onSubmit={onSubmit}
     >
       <Box
         position="absolute"
@@ -57,7 +60,7 @@ export const AuthForm = ({
         </VStack>
 
         <Button
-          onClick={onButtonClick}
+          onClick={onSubmit}
           color="white"
           bg="green.300"
           _hover={{ bg: 'green.300' }}
@@ -66,6 +69,6 @@ export const AuthForm = ({
           Продолжить
         </Button>
       </VStack>
-    </Box>
+    </Form>
   );
 };

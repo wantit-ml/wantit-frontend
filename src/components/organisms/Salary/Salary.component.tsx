@@ -1,7 +1,8 @@
-import React from 'react';
+import React, { forwardRef } from 'react';
 
 import {
   FormControl,
+  FormHelperText,
   FormLabel,
   HStack,
   NumberInput,
@@ -15,65 +16,59 @@ import { SalaryProps } from './Salary.interface';
 
 const ONE_MILLION = 1_000_000;
 
-export const Salary = ({
-  currency,
-  from,
-  setCurrency,
-  setFrom,
-  setTo,
-  to,
-  label,
-}: SalaryProps): JSX.Element => {
-  const handleFromChange: React.ChangeEventHandler<HTMLInputElement> = (e) => {
-    setFrom(Number(e.target.value));
-  };
+export const Salary = forwardRef<HTMLInputElement, SalaryProps>(
+  (
+    { currency, setCurrency, label, setValue, value, error },
+    ref
+  ): JSX.Element => {
+    const handleCurrencyChange: React.ChangeEventHandler<HTMLSelectElement> = (
+      e
+    ) => {
+      setCurrency(e.target.value as Currency);
+    };
 
-  const handleToChange: React.ChangeEventHandler<HTMLInputElement> = (e) => {
-    setTo(Number(e.target.value));
-  };
+    return (
+      <FormControl>
+        <FormLabel id="salary-label" htmlFor="salary">
+          {label}
+        </FormLabel>
 
-  const handleCurrencyChange: React.ChangeEventHandler<HTMLSelectElement> = (
-    e
-  ) => {
-    setCurrency(e.target.value as Currency);
-  };
+        <HStack>
+          <NumberInput
+            flex="3"
+            ref={ref}
+            min={1}
+            max={ONE_MILLION}
+            onChange={setValue}
+            value={value}
+          >
+            <NumberInputField
+              placeholder="от"
+              id="salary"
+              type="number"
+              onChange={console.log}
+            />
+          </NumberInput>
 
-  return (
-    <FormControl>
-      <FormLabel>{label}</FormLabel>
+          <Select
+            variant="rub"
+            value={currency}
+            onChange={handleCurrencyChange}
+            flex="1"
+            bgColor="white"
+            borderWidth="1px"
+            borderStyle="solid"
+            borderColor="inherit"
+            id="currency"
+          >
+            <option value="rub">руб.</option>
+            <option value="usd">долларов</option>
+            <option value="eur">евро</option>
+          </Select>
+        </HStack>
 
-      <HStack>
-        <NumberInput min={1} max={ONE_MILLION} flex="1" placeholder="от">
-          <NumberInputField
-            type="number"
-            value={from}
-            onChange={handleFromChange}
-          />
-        </NumberInput>
-
-        <NumberInput min={1} max={ONE_MILLION} flex="1" placeholder="до">
-          <NumberInputField
-            type="number"
-            value={to}
-            onChange={handleToChange}
-          />
-        </NumberInput>
-
-        <Select
-          variant="rub"
-          value={currency}
-          onChange={handleCurrencyChange}
-          flex="1"
-          bgColor="white"
-          borderWidth="1px"
-          borderStyle="solid"
-          borderColor="inherit"
-        >
-          <option value="rub">руб.</option>
-          <option value="usd">долларов</option>
-          <option value="eur">евро</option>
-        </Select>
-      </HStack>
-    </FormControl>
-  );
-};
+        {error && <FormHelperText color="red.500">{error}</FormHelperText>}
+      </FormControl>
+    );
+  }
+);

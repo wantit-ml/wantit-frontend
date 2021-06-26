@@ -6,7 +6,7 @@ import { useHtmlClassname } from 'hooks/useHtmlClassname.hook';
 
 import { PageTemplate } from 'components/templates/PageTemplate';
 
-const EmployeesPage = () => {
+const EmployersPage = () => {
   useHtmlClassname('with-main-background');
 
   return (
@@ -28,11 +28,12 @@ const EmployeesPage = () => {
         </Heading>
 
         <Text maxWidth="700px" mb="55px !important" fontSize="30px">
-          Вы амбициозный молодой специалист, жаждущий войти в IT?
+          Добро пожаловать в WanIT.Работодателям! <br />
+          Мы поможем вам найти молодых, амбициозных и трудолюбивых
+          IT-специалистов
         </Text>
-
         <Text maxWidth="700px" mb="75px !important" fontSize="30px">
-          Мы поможем Вам в этом. <br /> Давайте начнем!
+          Давайте начнем!
         </Text>
 
         <Button
@@ -49,4 +50,4 @@ const EmployeesPage = () => {
   );
 };
 
-export default EmployeesPage;
+export default EmployersPage;
