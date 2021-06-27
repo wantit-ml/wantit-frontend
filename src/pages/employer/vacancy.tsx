@@ -1,8 +1,14 @@
 import React, { useState } from 'react';
 
+import { useRouter } from "next/router";
+
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
+
+import { useUser } from "hooks/useUser.hook";
+
+import { createVacancy } from "api/vacancy";
 
 import NumberFormat from 'react-number-format';
 import MDEditor from '@uiw/react-md-editor';
@@ -18,10 +24,13 @@ import {
 } from '@chakra-ui/react';
 
 import { Currency } from 'types/Currency.types';
+import { Languages as LanguagesTypes } from "types/Language.types";
+import { Employment } from "types/Schedule.types";
 
 import { TextInput } from 'components/molecules/TextInput';
 import { Salary } from 'components/organisms/Salary';
 import { Skills } from 'components/organisms/Skills';
+import { Languages } from "components/organisms/Languages";
 import { PageTemplate } from 'components/templates/PageTemplate';
 import { FormSection } from 'components/templates/FormSection';
 
@@ -38,6 +47,7 @@ const schema = yup.object().shape({
     .string()
     .test('valid', 'телефон невалиден', (value) => !value?.includes('_'))
     .required('телефон обязателен'),
+  city: yup.string().required('город обязателен'),
   comment: yup.string(),
 });
 
@@ -48,6 +58,7 @@ type FormData = {
   contactPerson: string;
   email: string;
   phone: string;
+  city: string;
   comment: string;
 };
 
@@ -65,7 +76,10 @@ const defaultDescription = `
 const VacancyPage = (): JSX.Element => {
   const [skills, setSkills] = useState<string[]>(['']);
   const [currency, setCurrency] = useState<Currency>('rub');
-  const [employment, setEmployment] = useState('part-time');
+  const [languages, setLanguages] = useState<LanguagesTypes[]>(['en']);
+  const [employment, setEmployment] = useState<Employment>('part-time');
+
+  const router = useRouter();
 
   const {
     handleSubmit,
@@ -78,8 +92,31 @@ const VacancyPage = (): JSX.Element => {
     defaultValues: { description: defaultDescription },
   });
 
-  const onSubmit = handleSubmit((data) => {
-    console.log(data);
+  const { user } = useUser({ redirectTo: '/employer/login' });
+
+  const onSubmit = handleSubmit(async (data) => {
+    if (!user) {
+      return;
+    }
+
+    await createVacancy({
+      phone: data.phone,
+      description: data.description,
+      vacancy_code: '',
+      title: data.title,
+      email: data.email,
+      user_identifier: user.id,
+      salary: data.salary,
+      foreign_languages: languages,
+      city: data.city,
+      address: data.city,
+      type_of_vacancy: employment,
+      stack: skills,
+      currency,
+      author: ''
+    });
+
+    await router.push('/resumes');
   });
 
   return (
@@ -117,6 +154,21 @@ const VacancyPage = (): JSX.Element => {
             value={String(watch('salary'))}
             setValue={(v) => setValue('salary', Number(v))}
             error={errors.salary?.message}
+          />
+
+          <FormControl>
+            <FormLabel>Иностранные языки</FormLabel>
+            <Languages languages={languages} setLanguages={setLanguages} />
+          </FormControl>
+        </FormSection>
+
+        <FormSection label='Дополнительно'>
+          <TextInput
+            label='Вакансия в городе'
+            id='city'
+            placeholder='Москва'
+            {...register('city')}
+            error={errors.city?.message}
           />
         </FormSection>
 
@@ -172,6 +224,7 @@ const VacancyPage = (): JSX.Element => {
             label="Контактное лицо"
             placeholder="Иван Иванов"
           />
+
           <TextInput
             id="email"
             label="Email"

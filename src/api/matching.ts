@@ -1,10 +1,13 @@
 import { host } from './settings';
+import { VacancyDataWithId } from "./vacancy";
+import { AboutData } from "./user";
 
-export const getMatchingUsers = async (
-  identifier: number
-): Promise<number[]> => {
+export const getMatchingUsers = async (): Promise<AboutData[]> => {
   const response = await fetch(
-    `${host}/vacancy/get_matching_users?vacancy_id=${identifier}`
+    `${host}/matching/get_matching_users_for_all_vacancies`,
+    {
+      credentials: 'include'
+    }
   );
 
   if (response.ok) {
@@ -16,9 +19,9 @@ export const getMatchingUsers = async (
 
 export const getMatchingVacancies = async (
   identifier: string | number
-): Promise<number[]> => {
+): Promise<VacancyDataWithId[]> => {
   const response = await fetch(
-    `${host}/get_matching_vacancies?user_identifier=${identifier}`
+    `${host}/matching/get_matching_vacancies?user_identifier=${identifier}`
   );
 
   if (response.ok) {

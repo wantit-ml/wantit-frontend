@@ -1,23 +1,32 @@
 import React from 'react';
 
-import { chakra, Link, Avatar } from '@chakra-ui/react';
+import { chakra, Flex } from '@chakra-ui/react';
 
-export const Header = (): JSX.Element => {
+import { HeaderProps } from "./Header.interface";
+
+export const Header = ({ bgColor, leftChildren, rightChildren }: HeaderProps): JSX.Element => {
   return (
     <chakra.header
       zIndex="15"
       display="flex"
       alignItems="center"
-      justifyContent="flex-end"
+      justifyContent="space-between"
       position="fixed"
       top="0"
       left="0"
       width="100%"
-      bgColor="green.300"
+      bgColor={bgColor}
       p="12px"
+      paddingLeft='45px'
+      paddingRight='45px'
     >
-      <Link color="white">Выйти</Link>
-      <Avatar size="md" src="https://bit.ly/kent-c-dodds" ml="5px" />
+      <Flex>{leftChildren}</Flex>
+
+      {
+        rightChildren && (
+          <Flex alignItems='center'>{rightChildren}</Flex>
+        )
+      }
     </chakra.header>
   );
 };

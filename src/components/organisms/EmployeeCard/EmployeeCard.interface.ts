@@ -1,5 +1,5 @@
-import { Employee } from 'types/Employee.types';
+import { AboutData } from "api/user";
 
 export type EmployeeCardProps = {
-  employee: Employee;
+  employee: AboutData;
 };

@@ -13,6 +13,7 @@ export type CompanyData = {
 export const createCompany = async (data: CompanyData): Promise<string> => {
   const response = await fetch(`${host}/company/create`, {
     body: JSON.stringify(data),
+    credentials: 'include',
     headers: {
       'Content-Type': 'application/json',
     },
@@ -30,7 +31,10 @@ export const getCompanyByUserId = async (
   identifier: string | number
 ): Promise<CompanyData> => {
   const response = await fetch(
-    `${host}/company/get_by_user?user_identifier=${identifier}`
+    `${host}/company/get_by_user?user_identifier=${identifier}`,
+    {
+      credentials: 'include',
+    }
   );
 
   if (response.ok) {

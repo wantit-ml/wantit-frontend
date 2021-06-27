@@ -1,15 +1,27 @@
 import { host } from './settings';
 
-export type UserData = {
+import {Languages} from 'types/Language.types';
+
+export type CreateUserData = {
   username: string;
   email: string;
+  password: string;
   phone: string;
   role: string;
 };
 
+export type User = {
+  id: number;
+  username: string;
+  email: string;
+  phone: string;
+  role: string;
+}
+
 export type LoginData = {
   username: string;
   password: string;
+  role: string;
 };
 
 export type Timetable = {
@@ -22,7 +34,6 @@ export type Achievement = {
   title: string;
   level: string;
   role: string;
-  // file: string,
   description: string;
 };
 
@@ -34,6 +45,7 @@ export type AboutData = {
   birthday: string;
   gender: string;
   citizenships: string[];
+  description: string;
   rank: string;
   salary: number;
   currency: string;
@@ -41,7 +53,7 @@ export type AboutData = {
   school: string;
   age: number;
   native_language: string;
-  foreign_languages: string[];
+  foreign_languages: Languages[];
   can_move: string;
   metro_station: string;
   github_id: string;
@@ -51,7 +63,7 @@ export type AboutData = {
   achievements: Achievement[];
 };
 
-export const newUser = async (data: UserData): Promise<string> => {
+export const createUser = async (data: CreateUserData): Promise<string> => {
   const response = await fetch(`${host}/auth/registration`, {
     body: JSON.stringify(data),
     headers: {
@@ -64,12 +76,13 @@ export const newUser = async (data: UserData): Promise<string> => {
     return 'ok';
   }
 
-  return response.text();
+  throw new Error(await response.text());
 };
 
-export const login = async (data: LoginData): Promise<string> => {
-  const response = await fetch(`${host}/auth/get_session`, {
+export const login = async (data: LoginData): Promise<User> => {
+  const response = await fetch(`${host}/auth/login`, {
     body: JSON.stringify(data),
+    credentials: 'include',
     headers: {
       'Content-Type': 'application/json',
     },
@@ -77,15 +90,36 @@ export const login = async (data: LoginData): Promise<string> => {
   });
 
   if (response.ok) {
-    return 'ok';
+    return response.json();
   }
 
-  return response.text();
+  throw new Error(await response.text());
 };
+
+export const logout = async () => {
+  await fetch(`${host}/auth/logout`, {
+    credentials: 'include',
+    method: 'GET',
+  });
+}
+
+export const getMe = async (): Promise<User> => {
+  const response = await fetch(`${host}/user/get_user`, {
+    credentials: 'include',
+    method: 'GET'
+  });
+
+  if (response.ok) {
+    return response.json();
+  }
+
+  throw new Error(await response.text());
+}
 
 export const fillAbout = async (data: AboutData): Promise<string> => {
   const response = await fetch(`${host}/user/fill_about`, {
     body: JSON.stringify(data),
+    credentials: 'include',
     headers: {
       'Content-Type': 'application/json',
     },
@@ -96,19 +130,22 @@ export const fillAbout = async (data: AboutData): Promise<string> => {
     return 'ok';
   }
 
-  return response.text();
+  throw new Error(await response.text());
 };
 
 export const getAbout = async (
   identifier: string | number
 ): Promise<AboutData> => {
   const response = await fetch(
-    `${host}/user/get_about?identifier=${identifier}`
+    `${host}/user/get_about?identifier=${identifier}`,
+    {
+      credentials: 'include'
+    }
   );
 
   if (response.ok) {
     return response.json();
   }
 
-  throw new Error('NotFound');
+  throw new Error(await response.text());
 };

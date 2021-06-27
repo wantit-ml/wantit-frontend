@@ -1,10 +1,20 @@
 import React, { useState } from 'react';
 
+import { useRouter } from "next/router";
+
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
 
+import { fillAbout } from "api/user";
+
 import NumberFormat from 'react-number-format';
+import MDEditor from "@uiw/react-md-editor";
+
+import { Currency } from 'types/Currency.types';
+import { Languages as LanguagesTypes } from 'types/Language.types';
+
+import { useUser } from "hooks/useUser.hook";
 
 import {
   VStack,
@@ -16,23 +26,18 @@ import {
   Button,
 } from '@chakra-ui/react';
 
-import { Currency } from 'types/Currency.types';
-import { Languages as LanguagesTypes } from 'types/Language.types';
-
 import { TextInput } from 'components/molecules/TextInput';
 import { Languages } from 'components/organisms/Languages';
 import { Salary } from 'components/organisms/Salary';
 import { Skills } from 'components/organisms/Skills';
 import { FormSection } from 'components/templates/FormSection';
 import { PageTemplate } from 'components/templates/PageTemplate';
+import { Schedule, Day } from "components/organisms/Schedule";
 
 const schema = yup.object({
   name: yup.string().required('имя обязательно'),
   surname: yup.string().required('фамилия обязательна'),
-  phone: yup
-    .string()
-    .test('valid', 'телефон невалиден', (value) => !value?.includes('_'))
-    .required('телефон обязателен'),
+  description: yup.string().required('описание обязательно'),
   birthday: yup
     .string()
     .test('valid', 'дата рождения невалидна', (value) => !value?.includes('_'))
@@ -68,7 +73,7 @@ const schema = yup.object({
 type FormData = {
   name: string;
   surname: string;
-  phone: string;
+  description: string;
   birthday: string;
   citizenship: string;
   city: string;
@@ -81,7 +86,16 @@ type FormData = {
   github: string;
 };
 
+const MILLISECONDS_IN_YEAR = 1000 * 60 * 60 * 24 * 365;
+
+const defaultDescription = `
+**О себе:**
+
+`;
+
 const ResumePage = () => {
+  const router = useRouter();
+
   const {
     formState: { errors },
     register,
@@ -90,17 +104,57 @@ const ResumePage = () => {
     setValue,
   } = useForm<FormData>({
     resolver: yupResolver(schema),
+    defaultValues: { description: defaultDescription }
   });
 
   const [skills, setSkills] = useState<string[]>(['']);
   const [gender, setGender] = useState<string>('male');
   const [currency, setCurrency] = useState<Currency>('rub');
   const [typeOfEducation, setTypeOfEducation] = useState('school');
-  const [languages, setLanguages] = useState<LanguagesTypes[]>(['english']);
+  const [languages, setLanguages] = useState<LanguagesTypes[]>(['en']);
+  const [days, setDays] = useState<Day[]>([{ weekDay: 'monday', start: '12:00', end: '18:00' }]);
   const [moving, setMoving] = useState('impossible');
 
-  const onSubmit = handleSubmit((data) => {
+  const { user } = useUser({ redirectTo: '/employee/login' });
+
+  const onSubmit = handleSubmit(async (data) => {
     console.log(data);
+
+    if (!user) {
+      return;
+    }
+
+    const [year, month, day] = data.birthday.split('/').reverse().map(Number)
+    const birthday = new Date(year, month - 1, day);
+    const age = Math.floor((new Date().getTime() - birthday.getTime()) / MILLISECONDS_IN_YEAR);
+
+    await fillAbout({
+      birthday: birthday.toJSON(),
+      can_move: moving,
+      achievements: [],
+      currency,
+      age,
+      gender,
+      description: data.description,
+      city: data.city,
+      citizenships: [data.citizenship],
+      salary: Number(data.salary),
+      stack: skills,
+      metro_station: data.metroStation,
+      native_language: 'ru',
+      foreign_languages: languages,
+      github_id: data.github,
+      vk_id: data.vk,
+      telegram_id: data.telegram,
+      name: data.name,
+      surname: data.surname,
+      rank: data.label,
+      school: data.education,
+      timetable: days.map(day => ({ day: day.weekDay, time: `${day.start}-${day.end}` })),
+      identifier: user.id,
+    });
+
+    await router.push('/vacancies');
   });
 
   return (
@@ -121,25 +175,20 @@ const ResumePage = () => {
             {...register('surname')}
             error={errors.surname?.message}
           />
-          <NumberFormat
-            format="+7 (###) ###-##-##"
-            mask="_"
-            {...register('phone')}
-            customInput={(props) => {
-              return (
-                <TextInput
-                  id="phone"
-                  label="Телефон"
-                  placeholder="+7 (999) 999-99-99"
-                  {...props}
-                  error={errors.phone?.message}
-                />
-              );
-            }}
-          />
         </FormSection>
 
         <FormSection label="Основная информация">
+          <FormControl>
+            <FormLabel id="description-label" htmlFor="description">
+              Описание
+            </FormLabel>
+            <MDEditor
+              value={watch('description')}
+              onChange={(value) => setValue('description', value ?? '')}
+              id="description"
+            />
+          </FormControl>
+
           <NumberFormat
             format="##/##/####"
             mask="_"
@@ -248,17 +297,22 @@ const ResumePage = () => {
             </FormLabel>
             <RadioGroup id="moving" onChange={setMoving} value={moving}>
               <HStack>
-                <Radio id="moving-possible" value="possible">
+                <Radio name='moving-possible' id="moving-possible" value="possible">
                   Возможен
                 </Radio>
-                <Radio id="moving-impossible" value="impossible">
+                <Radio name='moving-impossible' id="moving-impossible" value="impossible">
                   Невозможен
                 </Radio>
-                <Radio id="moving-unwanted" value="unwanted">
+                <Radio name='moving-unwanted' id="moving-unwanted" value="unwanted">
                   Нежелателен
                 </Radio>
               </HStack>
             </RadioGroup>
+          </FormControl>
+
+          <FormControl>
+            <FormLabel id='schedule-label' htmlFor='schedule'>График</FormLabel>
+            <Schedule days={days} setDays={setDays} />
           </FormControl>
 
           <TextInput

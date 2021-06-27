@@ -1,10 +1,16 @@
 import React from 'react';
 
+import { useRouter } from "next/router";
+
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
 
+import { createCompany } from "api/company";
+
 import NumberFormat from 'react-number-format';
+
+import { useUser } from "hooks/useUser.hook";
 
 import { Button, VStack } from '@chakra-ui/react';
 
@@ -30,6 +36,8 @@ type FormData = {
 };
 
 const EntityPage = (): JSX.Element => {
+  const router = useRouter();
+
   const {
     handleSubmit,
     formState: { errors },
@@ -38,8 +46,24 @@ const EntityPage = (): JSX.Element => {
     resolver: yupResolver(schema),
   });
 
-  const onSubmit = handleSubmit((data) => {
-    console.log(data);
+  const { user } = useUser({ redirectTo: '/employer/login' });
+
+  const onSubmit = handleSubmit(async (data) => {
+    if (!user) {
+      return;
+    }
+
+    await createCompany({
+      user_identifier: user.id,
+      address: data.address,
+      city: data.city,
+      description: '',
+      email: user.email,
+      phone: data.phone.replaceAll(' ', '').replaceAll('-', '').replaceAll('(', '').replaceAll(')', ''),
+      title: data.entity
+    });
+
+    await router.push('/resumes');
   });
 
   return (

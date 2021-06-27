@@ -1,5 +1,5 @@
-import { Vacancy } from 'types/Vacancy.types';
+import { VacancyDataWithId } from "api/vacancy";
 
 export type VacancyCardProps = {
-  vacancy: Vacancy;
+  vacancy: VacancyDataWithId;
 };

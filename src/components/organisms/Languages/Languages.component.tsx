@@ -8,10 +8,10 @@ import type { Languages as LanguagesType } from 'types/Language.types';
 import { LanguagesProps } from './Languages.interface';
 
 const mapLanguageToText: Record<LanguagesType, string> = {
-  russian: 'Русский',
-  english: 'Английский',
-  french: 'Французкий',
-  german: 'Немецкий',
+  ru: 'Русский',
+  en: 'Английский',
+  fr: 'Французкий',
+  de: 'Немецкий',
 };
 
 const allLanguages = Object.keys(mapLanguageToText) as LanguagesType[];
@@ -22,14 +22,16 @@ export const Languages = (props: LanguagesProps): JSX.Element => {
   const canAddLanguage =
     !props.readonly && languages.length < allLanguages.length;
 
+  const languagesToAdd = allLanguages.filter(
+    (lang) => languages.find((language) => language === lang) === undefined
+  );
+
   const addLanguage = () => {
     if (props.readonly) {
       return;
     }
 
-    const languageToAdd: LanguagesType = allLanguages.filter(
-      (lang) => languages.filter((language) => language === lang).length === 0
-    )[0];
+    const languageToAdd: LanguagesType = languagesToAdd[0];
 
     props.setLanguages([...languages, languageToAdd]);
   };
@@ -64,12 +66,12 @@ export const Languages = (props: LanguagesProps): JSX.Element => {
       {languages.map((language, idx) => (
         <HStack spacing="5px" key={language}>
           <Select value={language} onChange={handleLanguageChange(idx)}>
-            {Object.entries(mapLanguageToText).map(([language, text]) =>
+            {languagesToAdd.concat([language]).map((l) =>
               props.readonly ? (
-                <Text key={language}>{text}</Text>
+                <Text key={l}>{mapLanguageToText[l]}</Text>
               ) : (
-                <option value={language} key={language}>
-                  {text}
+                <option value={l} key={l}>
+                  {mapLanguageToText[l]}
                 </option>
               )
             )}

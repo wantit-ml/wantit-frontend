@@ -1,26 +1,35 @@
 import React from 'react';
 
+import { login } from "api/user";
+import { useRouter } from "next/router";
+
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
 
-import { Center } from '@chakra-ui/react';
+import { Center, HStack } from "@chakra-ui/react";
 
 import { TextInput } from 'components/molecules/TextInput';
 import { PageTemplate } from 'components/templates/PageTemplate';
 import { AuthForm } from 'components/templates/AuthForm';
+import { Header } from "../../components/organisms/Header";
+import { Logo } from "../../components/atoms/Logo";
+import { default as Link } from "next/dist/client/link";
+import { getCompanyByUserId } from "../../api/company";
 
 const schema = yup.object().shape({
-  email: yup.string().email('email невалиден').required('email обязателен'),
+  login: yup.string().required('email обязателен'),
   password: yup.string().required('пароль обязателен'),
 });
 
 type FormData = {
-  email: string;
+  login: string;
   password: string;
 };
 
 const LoginPage = (): JSX.Element => {
+  const router = useRouter();
+
   const {
     register,
     handleSubmit,
@@ -29,12 +38,33 @@ const LoginPage = (): JSX.Element => {
     resolver: yupResolver(schema),
   });
 
-  const onSubmit = handleSubmit((data) => {
-    console.log(data);
+  const onSubmit = handleSubmit(async (data) => {
+    try {
+      const {id} = await login({ username: data.login, password: data.password, role: 'hr' });
+      try {
+        await getCompanyByUserId(id);
+      } catch (e) {
+        await router.push(`/employer/entity`);
+        return;
+      }
+      await router.push('/resumes');
+    } catch (e) {
+      console.error(e);
+    }
   });
 
   return (
     <PageTemplate>
+      <Header
+        leftChildren={(
+          <HStack spacing='75px'>
+            <Logo />
+            <Link href='/employers'>Работодателям</Link>
+          </HStack>
+        )}
+        bgColor='transparent'
+      />
+
       <Center width="100%" height="100%" paddingLeft="50px" paddingRight="50px">
         <AuthForm
           label="Вход работодателя"
@@ -45,15 +75,14 @@ const LoginPage = (): JSX.Element => {
           changeRoleText="Вы являетесь соискателем."
         >
           <TextInput
-            label="E-mail"
-            id="email"
-            type="email"
-            placeholder="example@gmail.com"
+            label="Логин"
+            id="login"
+            placeholder="example"
             bgColor="white"
             color="black"
             labelColor="white"
-            {...register('email')}
-            error={errors.email?.message}
+            {...register('login')}
+            error={errors.login?.message}
           />
           <TextInput
             label="Пароль"

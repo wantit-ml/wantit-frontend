@@ -9,7 +9,7 @@ const StyledLink = chakra(Link);
 const Row = ({ name, text }: { name: string; text: string }) => {
   return (
     <Text>
-      <Text color="gray.500" display="inline">
+      <Text color="gray.500" display="inline" as='span'>
         {name}:
       </Text>{' '}
       {text}
@@ -66,7 +66,7 @@ export const EmployeeCard = ({ employee }: EmployeeCardProps): JSX.Element => {
         <StyledLink
           bg="blue.500"
           _hover={{ textDecoration: 'none' }}
-          href={`/resume/${employee.user_id}`}
+          href={`/resume/${employee.identifier}`}
           color="white"
           display="flex"
           alignItems="center"

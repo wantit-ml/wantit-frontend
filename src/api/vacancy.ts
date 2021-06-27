@@ -17,9 +17,12 @@ export type VacancyData = {
   email: string;
 };
 
+export type VacancyDataWithId = VacancyData & { id: number };
+
 export const createVacancy = async (data: VacancyData): Promise<string> => {
   const response = await fetch(`${host}/vacancy/create_vacancy_db`, {
     body: JSON.stringify(data),
+    credentials: 'include',
     headers: {
       'Content-Type': 'application/json',
     },
@@ -35,7 +38,7 @@ export const createVacancy = async (data: VacancyData): Promise<string> => {
 
 export const getVacancyByUserId = async (
   identifier: string | number
-): Promise<VacancyData> => {
+): Promise<VacancyDataWithId> => {
   const response = await fetch(
     `${host}/vacancy/get_by_user_id?user_identifier=${identifier}`
   );
@@ -47,14 +50,26 @@ export const getVacancyByUserId = async (
 
 export const getVacancyById = async (
   identifier: number
-): Promise<VacancyData> => {
+): Promise<VacancyDataWithId> => {
   const response = await fetch(
     `${host}/vacancy/get_by_id?vacancy_id=${identifier}`
   );
 
   if (response.ok) {
-    return await response.json();
+    return response.json();
   }
 
   throw new Error('NotFound');
 };
+
+export const getAllVacancies = async (): Promise<VacancyDataWithId[]> => {
+  const response = await fetch(
+    `${host}/vacancy/get_all`
+  );
+
+  if (response.ok) {
+    return response.json();
+  }
+
+  throw new Error('NotFound');
+}

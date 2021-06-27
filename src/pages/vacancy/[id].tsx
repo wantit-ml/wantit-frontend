@@ -1,11 +1,25 @@
 import React from 'react';
 
-import { Box, chakra, Heading, Text, VStack } from '@chakra-ui/react';
+import { Box, chakra, Heading, HStack, Text, VStack } from "@chakra-ui/react";
+
+import { GetServerSideProps } from "next";
+import { default as Link } from "next/link";
+
+import { getVacancyById } from "api/vacancy";
 
 import { useHtmlClassname } from 'hooks/useHtmlClassname.hook';
-import { mockVacancies, Vacancy } from 'types/Vacancy.types';
+import { useUser } from "hooks/useUser.hook";
 
+import { mapCurrencyToText } from 'types/Currency.types';
+import { Vacancy } from 'types/Vacancy.types';
+
+import MDEditor from "@uiw/react-md-editor";
+
+import { Logo } from "components/atoms/Logo";
+import { HeaderAuth } from "components/molecules/HeaderAuth";
+import { Header } from "components/organisms/Header";
 import { PageTemplate } from 'components/templates/PageTemplate';
+import { mapEmploymentToText } from "../../types/Schedule.types";
 
 type VacancyPageProps = {
   vacancy: Vacancy;
@@ -15,10 +29,14 @@ const StyledPageTemplate = chakra(PageTemplate, {
   baseStyle: { alignItems: 'flex-start', padding: '0 50px' },
 });
 
+const StyledMdEditor = chakra(MDEditor.Markdown, {
+  baseStyle: { width: '100%', mt: '30px !important' }
+})
+
 const Row = ({ name, text }: { name: string; text: string }) => {
   return (
     <Text>
-      <Text color="gray.500" display="inline">
+      <Text color="gray.500" display="inline" as='span'>
         {name}:
       </Text>{' '}
       {text}
@@ -28,10 +46,24 @@ const Row = ({ name, text }: { name: string; text: string }) => {
 
 const VacancyPage = ({ vacancy }: VacancyPageProps): JSX.Element => {
   useHtmlClassname('with-feed-background');
+  const {user} = useUser({ shouldRedirect: false });
 
   return (
     <StyledPageTemplate>
-      <Box position="relative" width="100%" height="65vh" mb="30px">
+      <Header
+        leftChildren={(
+          <HStack spacing='75px'>
+            <Logo />
+            <Link href='/'>Главная</Link>
+            <Link href='/vacancies'>Вакансии</Link>
+            <Link href='/employers'>Работодателям</Link>
+          </HStack>
+        )}
+        rightChildren={<HeaderAuth isHr={false} isAuthorized={Boolean(user)} />}
+        bgColor='transparent'
+      />
+
+      <Box position="relative" width="100%" minHeight="65vh" mb="30px">
         <Box
           position="absolute"
           left="0"
@@ -57,27 +89,31 @@ const VacancyPage = ({ vacancy }: VacancyPageProps): JSX.Element => {
           </Heading>
 
           <Heading as="h3" size="lg" fontWeight="normal" mb="45px !important">
-            от {vacancy.salary} {vacancy.currency} до вычета налогов
+            от {vacancy.salary} {mapCurrencyToText[vacancy.currency]} до вычета налогов
           </Heading>
 
           <Heading as="h4" size="md" mb="10px !important">
-            {vacancy.author} - {vacancy.city}
+            {vacancy.city}
           </Heading>
 
-          <Row name="Тип занятости" text={vacancy.type_of_vacancy} />
+          <Row name="Тип занятости" text={mapEmploymentToText[vacancy.type_of_vacancy]} />
+          <Row name='Телефон' text={vacancy.phone} />
+          <Row name='E-mail' text={vacancy.email} />
 
-          <Text color="black" mt="30px !important">
-            {vacancy.description}
-          </Text>
+          <StyledMdEditor source={vacancy.description} />
         </VStack>
       </Box>
     </StyledPageTemplate>
   );
 };
 
-export const getServerSideProps = async () => {
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-ignore
+export const getServerSideProps: GetServerSideProps<{ vacancy: Vacancy }, { id: string }> = async ({ params: { id } }) => {
+  const vacancy = await getVacancyById(id);
+
   return {
-    props: { vacancy: mockVacancies[0] },
+    props: { vacancy },
   };
 };
 

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from "react";
 
 import {
   chakra,
@@ -14,17 +14,14 @@ import {
   FormLabel,
 } from '@chakra-ui/react';
 
-import { useHtmlClassname } from 'hooks/useHtmlClassname.hook';
+import { AboutData, getAbout } from "api/user";
 
-import { Employee, mockEmployee } from 'types/Employee.types';
+import { useHtmlClassname } from 'hooks/useHtmlClassname.hook';
 
 import { Skills } from 'components/organisms/Skills';
 import { Languages } from 'components/organisms/Languages';
 import { PageTemplate } from 'components/templates/PageTemplate';
-
-type ResumePageProps = {
-  resume: Employee;
-};
+import { GetServerSideProps } from "next";
 
 const StyledPageTemplate = chakra(PageTemplate, {
   baseStyle: { padding: '0 50px' },
@@ -33,7 +30,7 @@ const StyledPageTemplate = chakra(PageTemplate, {
 const Row = ({ name, text }: { name: string; text: string }) => {
   return (
     <Text>
-      <Text color="gray.500" display="inline">
+      <Text color="gray.500" display="inline" as='span'>
         {name}:
       </Text>{' '}
       {text}
@@ -41,8 +38,21 @@ const Row = ({ name, text }: { name: string; text: string }) => {
   );
 };
 
-const ResumePage = ({ resume }: ResumePageProps): JSX.Element => {
+const ResumePage = ({ id }: { id: string }): JSX.Element | null => {
+  const [resume, setResume] = useState<AboutData | null>(null);
+
   useHtmlClassname('with-feed-background');
+
+  useEffect(() => {
+    (async () => {
+      const data = await getAbout(id);
+      setResume(data);
+    })();
+  }, []);
+
+  if (!resume) {
+    return null;
+  }
 
   return (
     <StyledPageTemplate>
@@ -120,10 +130,8 @@ const ResumePage = ({ resume }: ResumePageProps): JSX.Element => {
   );
 };
 
-export const getServerSideProps = async () => {
-  return {
-    props: { resume: mockEmployee() },
-  };
-};
+export const getServerSideProps: GetServerSideProps<{ id: string }, { id: string }> = ({ params: { id } }) => {
+  return { props: { id } };
+}
 
 export default ResumePage;
