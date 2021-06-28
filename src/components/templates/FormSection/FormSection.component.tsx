@@ -11,14 +11,25 @@ export const FormSection = ({
   return (
     <Box
       w="100%"
-      borderLeftWidth="5px"
+      borderLeftWidth={{ base: '0', lg: '5px' }}
       borderLeftColor="green.300"
       borderLeftStyle="solid"
     >
-      <Heading color="cyan.900" as="h3" size="lg" lineHeight="1" pl="5px">
+      <Heading
+        color="cyan.900"
+        as="h3"
+        size="lg"
+        lineHeight="1"
+        pl={{ base: '15px', lg: '5px' }}
+      >
         {label}
       </Heading>
-      <VStack spacing="25px" pr="40px" pt="20px" pl="15px">
+      <VStack
+        spacing="25px"
+        pr={{ base: '15px', lg: '40px' }}
+        pt="20px"
+        pl="15px"
+      >
         {children}
       </VStack>
     </Box>

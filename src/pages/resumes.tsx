@@ -45,11 +45,10 @@ const VacanciesPage = (): JSX.Element => {
     <StyledPageTemplate>
       <Header
         leftChildren={
-          <HStack spacing="75px">
+          <HStack spacing={{ base: '15px', lg: '75px' }}>
             <Logo />
-            <Link href="/">Главная</Link>
-            <Link href="/resumes">Резюме</Link>
-            <Link href="/employers">Работодателям</Link>
+            <Link href="/employers">Главная</Link>
+            <Link href="/resumes">Соискатели</Link>
             <Link href="/employer/vacancy">Новая вакансия</Link>
           </HStack>
         }
@@ -59,7 +58,12 @@ const VacanciesPage = (): JSX.Element => {
 
       <Grid
         gap="50px"
-        gridTemplateColumns="repeat(4, 1fr)"
+        gridTemplateColumns={{
+          xl: 'repeat(4, 1fr)',
+          base: '1fr',
+          lg: 'repeat(3, 1fr)',
+          md: 'repeat(2, 1fr)',
+        }}
         gridAutoFlow="row"
         width="100%"
       >

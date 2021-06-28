@@ -52,7 +52,7 @@ const VacancyPage = ({ vacancy }: VacancyPageProps): JSX.Element => {
     <StyledPageTemplate>
       <Header
         leftChildren={
-          <HStack spacing="75px">
+          <HStack spacing={{ base: '15px', lg: '75px' }}>
             <Logo />
             <Link href="/">Главная</Link>
             <Link href="/vacancies">Вакансии</Link>
@@ -117,7 +117,7 @@ export const getServerSideProps: GetServerSideProps<
   { vacancy: Vacancy },
   { id: string }
   // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-// @ts-ignore
+  // @ts-ignore
 > = async ({ params: { id } }) => {
   const vacancy = await getVacancyById(id);
 

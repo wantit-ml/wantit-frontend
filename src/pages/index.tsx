@@ -21,7 +21,7 @@ const EmployeesPage = () => {
     <PageTemplate>
       <Header
         leftChildren={
-          <HStack spacing="75px">
+          <HStack spacing={{ base: '15px', lg: '75px' }}>
             <Logo />
             <Link href="/">Главная</Link>
             <Link href="/vacancies">Вакансии</Link>
@@ -32,16 +32,34 @@ const EmployeesPage = () => {
         bgColor="transparent"
       />
 
-      <VStack alignItems="flex-start" width="100%" padding="0 50px">
-        <Heading color="green.900" as="h1" fontSize="200px" lineHeight="1">
+      <VStack
+        textAlign={{ base: 'center', lg: 'left' }}
+        alignItems={{ lg: 'flex-start', base: 'center' }}
+        width="100%"
+        padding="0 50px"
+      >
+        <Heading
+          color="green.900"
+          as="h1"
+          fontSize={{ base: '75px', lg: '150px' }}
+          lineHeight="1"
+        >
           WantIT
         </Heading>
 
-        <Text maxWidth="700px" mb="55px !important" fontSize="30px">
+        <Text
+          maxWidth="700px"
+          mb="55px !important"
+          fontSize={{ base: '20px', lg: '30px' }}
+        >
           Вы амбициозный молодой специалист, жаждущий войти в IT?
         </Text>
 
-        <Text maxWidth="700px" mb="75px !important" fontSize="30px">
+        <Text
+          maxWidth="700px"
+          mb="75px !important"
+          fontSize={{ base: '20px', lg: '30px' }}
+        >
           Мы поможем Вам в этом. <br /> Давайте начнем!
         </Text>
 

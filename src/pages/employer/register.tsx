@@ -9,11 +9,14 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
 
 import NumberFormat from 'react-number-format';
-import { Center } from '@chakra-ui/react';
+import { Center, HStack } from '@chakra-ui/react';
 
 import { TextInput } from 'components/molecules/TextInput';
 import { PageTemplate } from 'components/templates/PageTemplate';
 import { AuthForm } from 'components/templates/AuthForm';
+import { Header } from '../../components/organisms/Header';
+import { Logo } from '../../components/atoms/Logo';
+import { default as Link } from 'next/dist/client/link';
 
 const schema = yup.object().shape({
   email: yup.string().email('email невалиден').required('email обязателен'),
@@ -64,7 +67,17 @@ const EmployerRegisterPage = (): JSX.Element => {
 
   return (
     <PageTemplate>
-      <Center width="100%" height="100%" paddingLeft="50px" paddingRight="50px">
+      <Header
+        leftChildren={
+          <HStack spacing={{ base: '15px', lg: '75px' }}>
+            <Logo />
+            <Link href="/">Работодателям</Link>
+          </HStack>
+        }
+        bgColor="transparent"
+      />
+
+      <Center width="100%" height="100%">
         <AuthForm
           label="Регистрация работодателя"
           onSubmit={onSubmit}

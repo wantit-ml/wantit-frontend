@@ -33,6 +33,9 @@ import { Skills } from 'components/organisms/Skills';
 import { FormSection } from 'components/templates/FormSection';
 import { PageTemplate } from 'components/templates/PageTemplate';
 import { Schedule, Day } from 'components/organisms/Schedule';
+import { Header } from '../../components/organisms/Header';
+import { Logo } from '../../components/atoms/Logo';
+import { default as Link } from 'next/dist/client/link';
 
 const schema = yup.object({
   name: yup.string().required('имя обязательно'),
@@ -120,8 +123,6 @@ const ResumePage = () => {
   const { user } = useUser({ redirectTo: '/employee/login' });
 
   const onSubmit = handleSubmit(async (data) => {
-    console.log(data);
-
     if (!user) {
       return;
     }
@@ -158,7 +159,9 @@ const ResumePage = () => {
         day: day.weekDay,
         time: `${day.start}-${day.end}`,
       })),
-      id: user.id,
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      // @ts-ignore
+      identifier: user.id,
     });
 
     await router.push('/vacancies');
@@ -166,7 +169,17 @@ const ResumePage = () => {
 
   return (
     <PageTemplate title="Резюме">
-      <VStack maxW="3xl" w="100%" spacing="90px">
+      <Header
+        leftChildren={
+          <HStack spacing={{ base: '15px', lg: '75px' }}>
+            <Logo />
+            <Link href="/">Главная</Link>
+          </HStack>
+        }
+        bgColor="green.300"
+      />
+
+      <VStack maxW="3xl" w="100%" spacing="70px">
         <FormSection label="Контактные данные">
           <TextInput
             id="name"
@@ -303,7 +316,7 @@ const ResumePage = () => {
               Переезд
             </FormLabel>
             <RadioGroup id="moving" onChange={setMoving} value={moving}>
-              <HStack>
+              <VStack alignItems="flex-start">
                 <Radio
                   name="moving-possible"
                   id="moving-possible"
@@ -325,7 +338,7 @@ const ResumePage = () => {
                 >
                   Нежелателен
                 </Radio>
-              </HStack>
+              </VStack>
             </RadioGroup>
           </FormControl>
 
@@ -376,7 +389,7 @@ const ResumePage = () => {
         bgColor="green.500"
         _hover={{ bgColor: 'green.600' }}
         _active={{ bgColor: 'green.600' }}
-        mt="215px !important"
+        mt="100px !important"
         mb="70px !important"
       >
         Сохранить

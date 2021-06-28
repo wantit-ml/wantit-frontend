@@ -61,7 +61,7 @@ const LoginPage = (): JSX.Element => {
     <PageTemplate>
       <Header
         leftChildren={
-          <HStack spacing="75px">
+          <HStack spacing={{ base: '15px', lg: '75px' }}>
             <Logo />
             <Link href="/employers">Работодателям</Link>
           </HStack>
@@ -69,7 +69,7 @@ const LoginPage = (): JSX.Element => {
         bgColor="transparent"
       />
 
-      <Center width="100%" height="100%" paddingLeft="50px" paddingRight="50px">
+      <Center width="100%" height="100%">
         <AuthForm
           label="Вход работодателя"
           onSubmit={onSubmit}

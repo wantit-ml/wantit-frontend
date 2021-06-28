@@ -12,6 +12,7 @@ import {
   Center,
   FormControl,
   FormLabel,
+  HStack,
 } from '@chakra-ui/react';
 
 import { AboutData, getAbout } from 'api/user';
@@ -24,6 +25,9 @@ import { Languages } from 'components/organisms/Languages';
 import { PageTemplate } from 'components/templates/PageTemplate';
 import MDEditor from '@uiw/react-md-editor';
 import { mapGenderToText, mapMovingToText } from '../../util/mapToText.util';
+import { Header } from '../../components/organisms/Header';
+import { Logo } from '../../components/atoms/Logo';
+import { default as Link } from 'next/dist/client/link';
 
 const StyledPageTemplate = chakra(PageTemplate, {
   baseStyle: { padding: '0 50px' },
@@ -63,6 +67,18 @@ const ResumePage = ({ id }: { id: string }): JSX.Element | null => {
 
   return (
     <StyledPageTemplate>
+      <Header
+        leftChildren={
+          <HStack spacing={{ base: '15px', lg: '75px' }}>
+            <Logo />
+            <Link href="/employers">Главная</Link>
+            <Link href="/resumes">Соискатели</Link>
+            <Link href="/employer/vacancy">Новая вакансия</Link>
+          </HStack>
+        }
+        bgColor="green.300"
+      />
+
       <Box position="relative" width="100%">
         <Box
           position="absolute"
