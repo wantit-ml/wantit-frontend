@@ -64,7 +64,7 @@ const VacanciesPage = (): JSX.Element => {
         width="100%"
       >
         {resumes.map((employee) => (
-          <EmployeeCard employee={employee} key={employee.identifier} />
+          <EmployeeCard employee={employee} key={employee.id} />
         ))}
       </Grid>
     </StyledPageTemplate>

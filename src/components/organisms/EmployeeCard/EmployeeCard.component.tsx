@@ -2,6 +2,9 @@ import React from 'react';
 
 import { Heading, VStack, Text, chakra, Link, Box } from '@chakra-ui/react';
 
+import { mapGenderToText, mapMovingToText } from "util/mapToText.util";
+import { Currency, mapCurrencyToText } from "types/Currency.types";
+
 import { EmployeeCardProps } from './EmployeeCard.interface';
 
 const StyledLink = chakra(Link);
@@ -44,14 +47,14 @@ export const EmployeeCard = ({ employee }: EmployeeCardProps): JSX.Element => {
         </Heading>
 
         <Heading as="h4" size="sm" mb="30px !important">
-          {employee.rank}
+          {employee.rank}, {employee.salary} {mapCurrencyToText[employee.currency as Currency]}
         </Heading>
 
-        <Row name="Пол" text={employee.gender} />
+        <Row name="Пол" text={mapGenderToText[employee.gender as 'male' | 'female']} />
 
         <Text>
           <Text color="gray.500" display="inline">
-            Специализации:
+            Навыки:
           </Text>{' '}
           {employee.stack.join(', ')}
         </Text>
@@ -61,12 +64,12 @@ export const EmployeeCard = ({ employee }: EmployeeCardProps): JSX.Element => {
         <Box height="30px" />
 
         <Row name="Город" text={employee.city} />
-        <Row name="Переезд" text={employee.can_move} />
+        <Row name="Переезд" text={mapMovingToText[employee.can_move as 'possible' | 'impossible' | 'unwanted']} />
 
         <StyledLink
           bg="blue.500"
           _hover={{ textDecoration: 'none' }}
-          href={`/resume/${employee.identifier}`}
+          href={`/resume/${employee.id}`}
           color="white"
           display="flex"
           alignItems="center"

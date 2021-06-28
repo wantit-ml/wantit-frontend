@@ -11,6 +11,7 @@ import { useHtmlClassname } from 'hooks/useHtmlClassname.hook';
 import { useUser } from "hooks/useUser.hook";
 
 import { mapCurrencyToText } from 'types/Currency.types';
+import { mapEmploymentToText } from "types/Schedule.types";
 import { Vacancy } from 'types/Vacancy.types';
 
 import MDEditor from "@uiw/react-md-editor";
@@ -19,7 +20,6 @@ import { Logo } from "components/atoms/Logo";
 import { HeaderAuth } from "components/molecules/HeaderAuth";
 import { Header } from "components/organisms/Header";
 import { PageTemplate } from 'components/templates/PageTemplate';
-import { mapEmploymentToText } from "../../types/Schedule.types";
 
 type VacancyPageProps = {
   vacancy: Vacancy;

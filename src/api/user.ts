@@ -38,7 +38,7 @@ export type Achievement = {
 };
 
 export type AboutData = {
-  identifier: string | number;
+  id: string | number;
   name: string;
   surname: string;
   city: string;

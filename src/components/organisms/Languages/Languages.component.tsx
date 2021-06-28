@@ -65,16 +65,12 @@ export const Languages = (props: LanguagesProps): JSX.Element => {
     <VStack alignItems="flex-start">
       {languages.map((language, idx) => (
         <HStack spacing="5px" key={language}>
-          <Select value={language} onChange={handleLanguageChange(idx)}>
-            {languagesToAdd.concat([language]).map((l) =>
-              props.readonly ? (
-                <Text key={l}>{mapLanguageToText[l]}</Text>
-              ) : (
+          <Select value={language} onChange={handleLanguageChange(idx)} disabled={props.readonly}>
+            {languagesToAdd.concat([language]).map((l) => (
                 <option value={l} key={l}>
                   {mapLanguageToText[l]}
                 </option>
-              )
-            )}
+            ))}
           </Select>
 
           {!props.readonly && (

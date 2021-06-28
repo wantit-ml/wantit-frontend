@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from "react";
 
+import { GetServerSideProps } from "next";
+
 import {
   chakra,
   Heading,
@@ -17,11 +19,13 @@ import {
 import { AboutData, getAbout } from "api/user";
 
 import { useHtmlClassname } from 'hooks/useHtmlClassname.hook';
+import { useUser } from "hooks/useUser.hook";
 
 import { Skills } from 'components/organisms/Skills';
 import { Languages } from 'components/organisms/Languages';
 import { PageTemplate } from 'components/templates/PageTemplate';
-import { GetServerSideProps } from "next";
+import MDEditor from "@uiw/react-md-editor";
+import { mapGenderToText, mapMovingToText } from "../../util/mapToText.util";
 
 const StyledPageTemplate = chakra(PageTemplate, {
   baseStyle: { padding: '0 50px' },
@@ -32,13 +36,18 @@ const Row = ({ name, text }: { name: string; text: string }) => {
     <Text>
       <Text color="gray.500" display="inline" as='span'>
         {name}:
-      </Text>{' '}
+      </Text>{" "}
       {text}
     </Text>
   );
 };
 
+const StyledMdEditor = chakra(MDEditor.Markdown, {
+  baseStyle: { width: '100%', mt: '15px !important', mb: '15px !important' }
+})
+
 const ResumePage = ({ id }: { id: string }): JSX.Element | null => {
+  useUser({ redirectTo: '/employer/login' });
   const [resume, setResume] = useState<AboutData | null>(null);
 
   useHtmlClassname('with-feed-background');
@@ -48,7 +57,7 @@ const ResumePage = ({ id }: { id: string }): JSX.Element | null => {
       const data = await getAbout(id);
       setResume(data);
     })();
-  }, []);
+  }, [id]);
 
   if (!resume) {
     return null;
@@ -92,17 +101,21 @@ const ResumePage = ({ id }: { id: string }): JSX.Element | null => {
                 {resume.rank}
               </Heading>
 
-              <Row name="Пол" text={resume.gender} />
+              <Row name="Пол" text={mapGenderToText[resume.gender]} />
               <Row name="Город" text={resume.city} />
-              <Row name="Переезд" text={resume.can_move} />
+              <Row name="Переезд" text={mapMovingToText[resume.can_move]} />
             </Box>
 
-            <Center flexDirection="column">
-              {resume.telegram_id && <Text>{resume.telegram_id}</Text>}
-
-              {resume.vk_id && <Text>{resume.vk_id}</Text>}
-
-              {resume.github_id && <Text>{resume.github_id}</Text>}
+            <Center flexDirection="column" justifyContent='space-between'>
+              {resume.telegram_id && (
+                <Row text={resume.telegram_id} name='Telegram' />
+              )}
+              {resume.vk_id && (
+                <Row text={resume.vk_id} name='Vk' />
+              )}
+              {resume.github_id && (
+                <Row text={resume.github_id} name='Github' />
+              )}
             </Center>
 
             <Center justifyContent="flex-end">
@@ -113,8 +126,10 @@ const ResumePage = ({ id }: { id: string }): JSX.Element | null => {
           <Divider />
 
           <VStack>
+            <StyledMdEditor source={resume.description} />
+
             <FormControl>
-              <FormLabel>Специализации</FormLabel>
+              <FormLabel>Навыки</FormLabel>
               <Skills skills={resume.stack} readonly />
             </FormControl>
 
