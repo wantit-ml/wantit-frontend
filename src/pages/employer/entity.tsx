@@ -12,11 +12,14 @@ import NumberFormat from 'react-number-format';
 
 import { useUser } from 'hooks/useUser.hook';
 
-import { Button, VStack } from '@chakra-ui/react';
+import { Button, HStack, VStack } from '@chakra-ui/react';
 
 import { TextInput } from 'components/molecules/TextInput';
 import { PageTemplate } from 'components/templates/PageTemplate';
 import { FormSection } from 'components/templates/FormSection';
+import { Header } from '../../components/organisms/Header';
+import { Logo } from '../../components/atoms/Logo';
+import { default as Link } from 'next/dist/client/link';
 
 const schema = yup.object().shape({
   entity: yup.string().required('юр. лицо обязательно'),
@@ -72,6 +75,18 @@ const EntityPage = (): JSX.Element => {
 
   return (
     <PageTemplate title="Юридическое лицо">
+      <Header
+        leftChildren={
+          <HStack spacing={{ base: '15px', lg: '75px' }}>
+            <Logo />
+            <Link href="/employers">Главная</Link>
+            <Link href="/resumes">Соискатели</Link>
+            <Link href="/employer/vacancy">Новая вакансия</Link>
+          </HStack>
+        }
+        bgColor="green.300"
+      />
+
       <VStack maxW="3xl" w="100%" spacing="90px">
         <FormSection label="Основная информация">
           <TextInput

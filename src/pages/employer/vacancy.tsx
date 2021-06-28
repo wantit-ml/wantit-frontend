@@ -21,6 +21,7 @@ import {
   RadioGroup,
   VStack,
   Text,
+  HStack,
 } from '@chakra-ui/react';
 
 import { Currency } from 'types/Currency.types';
@@ -33,6 +34,9 @@ import { Skills } from 'components/organisms/Skills';
 import { Languages } from 'components/organisms/Languages';
 import { PageTemplate } from 'components/templates/PageTemplate';
 import { FormSection } from 'components/templates/FormSection';
+import { Header } from '../../components/organisms/Header';
+import { Logo } from '../../components/atoms/Logo';
+import { default as Link } from 'next/dist/client/link';
 
 const schema = yup.object().shape({
   title: yup.string().required('название обязательно'),
@@ -121,7 +125,19 @@ const VacancyPage = (): JSX.Element => {
 
   return (
     <PageTemplate title="Новая вакансия">
-      <VStack maxW="3xl" w="100%" spacing="90px">
+      <Header
+        leftChildren={
+          <HStack spacing={{ base: '15px', lg: '75px' }}>
+            <Logo />
+            <Link href="/employers">Главная</Link>
+            <Link href="/resumes">Соискатели</Link>
+            <Link href="/employer/vacancy">Новая вакансия</Link>
+          </HStack>
+        }
+        bgColor="green.300"
+      />
+
+      <VStack maxW="3xl" w="100%" spacing="70px">
         <FormSection label="Основная информация">
           <TextInput
             id="title"
@@ -162,7 +178,7 @@ const VacancyPage = (): JSX.Element => {
           </FormControl>
         </FormSection>
 
-        <FormSection label="Дополнительно">
+        <FormSection label="Место работы">
           <TextInput
             label="Вакансия в городе"
             id="city"
@@ -267,7 +283,7 @@ const VacancyPage = (): JSX.Element => {
         _hover={{ bgColor: 'green.600' }}
         _active={{ bgColor: 'green.600' }}
         mt="215px !important"
-        mb="70px !important"
+        mb="100px !important"
       >
         Сохранить
       </Button>

@@ -27,7 +27,7 @@ export const AuthForm = ({
     <Form
       position="relative"
       borderRadius="20px"
-      padding="20px 70px"
+      padding={{ base: '20px', lg: '20px 70px' }}
       width="100%"
       height="100%"
       maxWidth="700px"

@@ -42,12 +42,7 @@ export const Salary = forwardRef<HTMLInputElement, SalaryProps>(
             onChange={setValue}
             value={value}
           >
-            <NumberInputField
-              placeholder="от"
-              id="salary"
-              type="number"
-              onChange={console.log}
-            />
+            <NumberInputField placeholder="от" id="salary" type="number" />
           </NumberInput>
 
           <Select

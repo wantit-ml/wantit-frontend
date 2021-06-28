@@ -21,8 +21,10 @@ export const Header = ({
       width="100%"
       bgColor={bgColor}
       p="12px"
-      paddingLeft="45px"
-      paddingRight="45px"
+      paddingLeft={{ base: '15px', lg: '45px' }}
+      paddingRight={{ base: '15px', lg: '45px' }}
+      mt="0 !important"
+      className="header"
     >
       <Flex>{leftChildren}</Flex>
 
