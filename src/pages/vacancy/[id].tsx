@@ -116,6 +116,8 @@ const VacancyPage = ({ vacancy }: VacancyPageProps): JSX.Element => {
 export const getServerSideProps: GetServerSideProps<
   { vacancy: Vacancy },
   { id: string }
+  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-ignore
 > = async ({ params: { id } }) => {
   const vacancy = await getVacancyById(id);
 

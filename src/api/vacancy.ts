@@ -49,7 +49,7 @@ export const getVacancyByUserId = async (
 };
 
 export const getVacancyById = async (
-  identifier: number
+  identifier: string
 ): Promise<VacancyDataWithId> => {
   const response = await fetch(
     `${host}/vacancy/get_by_id?vacancy_id=${identifier}`
