@@ -63,13 +63,11 @@ export const getVacancyById = async (
 };
 
 export const getAllVacancies = async (): Promise<VacancyDataWithId[]> => {
-  const response = await fetch(
-    `${host}/vacancy/get_all`
-  );
+  const response = await fetch(`${host}/vacancy/get_all`);
 
   if (response.ok) {
     return response.json();
   }
 
   throw new Error('NotFound');
-}
+};

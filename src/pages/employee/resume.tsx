@@ -1,20 +1,20 @@
 import React, { useState } from 'react';
 
-import { useRouter } from "next/router";
+import { useRouter } from 'next/router';
 
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
 
-import { fillAbout } from "api/user";
+import { fillAbout } from 'api/user';
 
 import NumberFormat from 'react-number-format';
-import MDEditor from "@uiw/react-md-editor";
+import MDEditor from '@uiw/react-md-editor';
 
 import { Currency } from 'types/Currency.types';
 import { Languages as LanguagesTypes } from 'types/Language.types';
 
-import { useUser } from "hooks/useUser.hook";
+import { useUser } from 'hooks/useUser.hook';
 
 import {
   VStack,
@@ -32,7 +32,7 @@ import { Salary } from 'components/organisms/Salary';
 import { Skills } from 'components/organisms/Skills';
 import { FormSection } from 'components/templates/FormSection';
 import { PageTemplate } from 'components/templates/PageTemplate';
-import { Schedule, Day } from "components/organisms/Schedule";
+import { Schedule, Day } from 'components/organisms/Schedule';
 
 const schema = yup.object({
   name: yup.string().required('имя обязательно'),
@@ -104,7 +104,7 @@ const ResumePage = () => {
     setValue,
   } = useForm<FormData>({
     resolver: yupResolver(schema),
-    defaultValues: { description: defaultDescription }
+    defaultValues: { description: defaultDescription },
   });
 
   const [skills, setSkills] = useState<string[]>(['']);
@@ -112,7 +112,9 @@ const ResumePage = () => {
   const [currency, setCurrency] = useState<Currency>('rub');
   const [typeOfEducation, setTypeOfEducation] = useState('school');
   const [languages, setLanguages] = useState<LanguagesTypes[]>(['en']);
-  const [days, setDays] = useState<Day[]>([{ weekDay: 'monday', start: '12:00', end: '18:00' }]);
+  const [days, setDays] = useState<Day[]>([
+    { weekDay: 'monday', start: '12:00', end: '18:00' },
+  ]);
   const [moving, setMoving] = useState('impossible');
 
   const { user } = useUser({ redirectTo: '/employee/login' });
@@ -124,9 +126,11 @@ const ResumePage = () => {
       return;
     }
 
-    const [year, month, day] = data.birthday.split('/').reverse().map(Number)
+    const [year, month, day] = data.birthday.split('/').reverse().map(Number);
     const birthday = new Date(year, month - 1, day);
-    const age = Math.floor((new Date().getTime() - birthday.getTime()) / MILLISECONDS_IN_YEAR);
+    const age = Math.floor(
+      (new Date().getTime() - birthday.getTime()) / MILLISECONDS_IN_YEAR
+    );
 
     await fillAbout({
       birthday: birthday.toJSON(),
@@ -150,8 +154,11 @@ const ResumePage = () => {
       surname: data.surname,
       rank: data.label,
       school: data.education,
-      timetable: days.map(day => ({ day: day.weekDay, time: `${day.start}-${day.end}` })),
-      identifier: user.id,
+      timetable: days.map((day) => ({
+        day: day.weekDay,
+        time: `${day.start}-${day.end}`,
+      })),
+      id: user.id,
     });
 
     await router.push('/vacancies');
@@ -297,13 +304,25 @@ const ResumePage = () => {
             </FormLabel>
             <RadioGroup id="moving" onChange={setMoving} value={moving}>
               <HStack>
-                <Radio name='moving-possible' id="moving-possible" value="possible">
+                <Radio
+                  name="moving-possible"
+                  id="moving-possible"
+                  value="possible"
+                >
                   Возможен
                 </Radio>
-                <Radio name='moving-impossible' id="moving-impossible" value="impossible">
+                <Radio
+                  name="moving-impossible"
+                  id="moving-impossible"
+                  value="impossible"
+                >
                   Невозможен
                 </Radio>
-                <Radio name='moving-unwanted' id="moving-unwanted" value="unwanted">
+                <Radio
+                  name="moving-unwanted"
+                  id="moving-unwanted"
+                  value="unwanted"
+                >
                   Нежелателен
                 </Radio>
               </HStack>
@@ -311,7 +330,9 @@ const ResumePage = () => {
           </FormControl>
 
           <FormControl>
-            <FormLabel id='schedule-label' htmlFor='schedule'>График</FormLabel>
+            <FormLabel id="schedule-label" htmlFor="schedule">
+              График
+            </FormLabel>
             <Schedule days={days} setDays={setDays} />
           </FormControl>
 

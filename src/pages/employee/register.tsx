@@ -1,14 +1,14 @@
 import React from 'react';
 
-import { useRouter } from "next/router";
+import { useRouter } from 'next/router';
 
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
 
-import NumberFormat from "react-number-format";
+import NumberFormat from 'react-number-format';
 
-import {createUser} from "api/user";
+import { createUser } from 'api/user';
 import { Center } from '@chakra-ui/react';
 import { TextInput } from 'components/molecules/TextInput';
 import { PageTemplate } from 'components/templates/PageTemplate';
@@ -44,7 +44,17 @@ const EmployeeRegisterPage = (): JSX.Element => {
 
   const onSubmit = handleSubmit(async (data) => {
     try {
-      await createUser({ email: data.email, username: data.login, phone: data.phone.replaceAll(' ', '').replaceAll('-', '').replaceAll('(', '').replaceAll(')', ''), password: data.password, role: 'user' });
+      await createUser({
+        email: data.email,
+        username: data.login,
+        phone: data.phone
+          .replaceAll(' ', '')
+          .replaceAll('-', '')
+          .replaceAll('(', '')
+          .replaceAll(')', ''),
+        password: data.password,
+        role: 'user',
+      });
       await router.push('/employee/login');
     } catch (e) {
       console.error(e);

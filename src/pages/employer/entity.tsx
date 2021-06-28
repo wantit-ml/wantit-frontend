@@ -1,16 +1,16 @@
 import React from 'react';
 
-import { useRouter } from "next/router";
+import { useRouter } from 'next/router';
 
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
 
-import { createCompany } from "api/company";
+import { createCompany } from 'api/company';
 
 import NumberFormat from 'react-number-format';
 
-import { useUser } from "hooks/useUser.hook";
+import { useUser } from 'hooks/useUser.hook';
 
 import { Button, VStack } from '@chakra-ui/react';
 
@@ -59,8 +59,12 @@ const EntityPage = (): JSX.Element => {
       city: data.city,
       description: '',
       email: user.email,
-      phone: data.phone.replaceAll(' ', '').replaceAll('-', '').replaceAll('(', '').replaceAll(')', ''),
-      title: data.entity
+      phone: data.phone
+        .replaceAll(' ', '')
+        .replaceAll('-', '')
+        .replaceAll('(', '')
+        .replaceAll(')', ''),
+      title: data.entity,
     });
 
     await router.push('/resumes');

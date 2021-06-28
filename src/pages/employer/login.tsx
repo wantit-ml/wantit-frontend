@@ -1,21 +1,21 @@
 import React from 'react';
 
-import { login } from "api/user";
-import { useRouter } from "next/router";
+import { login } from 'api/user';
+import { useRouter } from 'next/router';
 
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
 
-import { Center, HStack } from "@chakra-ui/react";
+import { Center, HStack } from '@chakra-ui/react';
 
 import { TextInput } from 'components/molecules/TextInput';
 import { PageTemplate } from 'components/templates/PageTemplate';
 import { AuthForm } from 'components/templates/AuthForm';
-import { Header } from "../../components/organisms/Header";
-import { Logo } from "../../components/atoms/Logo";
-import { default as Link } from "next/dist/client/link";
-import { getCompanyByUserId } from "../../api/company";
+import { Header } from '../../components/organisms/Header';
+import { Logo } from '../../components/atoms/Logo';
+import { default as Link } from 'next/dist/client/link';
+import { getCompanyByUserId } from '../../api/company';
 
 const schema = yup.object().shape({
   login: yup.string().required('email обязателен'),
@@ -40,7 +40,11 @@ const LoginPage = (): JSX.Element => {
 
   const onSubmit = handleSubmit(async (data) => {
     try {
-      const {id} = await login({ username: data.login, password: data.password, role: 'hr' });
+      const { id } = await login({
+        username: data.login,
+        password: data.password,
+        role: 'hr',
+      });
       try {
         await getCompanyByUserId(id);
       } catch (e) {
@@ -56,13 +60,13 @@ const LoginPage = (): JSX.Element => {
   return (
     <PageTemplate>
       <Header
-        leftChildren={(
-          <HStack spacing='75px'>
+        leftChildren={
+          <HStack spacing="75px">
             <Logo />
-            <Link href='/employers'>Работодателям</Link>
+            <Link href="/employers">Работодателям</Link>
           </HStack>
-        )}
-        bgColor='transparent'
+        }
+        bgColor="transparent"
       />
 
       <Center width="100%" height="100%" paddingLeft="50px" paddingRight="50px">

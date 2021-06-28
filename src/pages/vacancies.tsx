@@ -1,19 +1,19 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState } from 'react';
 
-import { default as Link } from "next/link";
+import { default as Link } from 'next/link';
 
-import { chakra, Grid, HStack } from "@chakra-ui/react";
+import { chakra, Grid, HStack } from '@chakra-ui/react';
 
-import { getAllVacancies, VacancyDataWithId } from "api/vacancy";
-import { getMatchingVacancies } from "api/matching";
+import { getAllVacancies, VacancyDataWithId } from 'api/vacancy';
+import { getMatchingVacancies } from 'api/matching';
 
 import { useHtmlClassname } from 'hooks/useHtmlClassname.hook';
-import { useUser } from "hooks/useUser.hook";
+import { useUser } from 'hooks/useUser.hook';
 
-import { Logo } from "components/atoms/Logo";
-import { HeaderAuth } from "components/molecules/HeaderAuth";
+import { Logo } from 'components/atoms/Logo';
+import { HeaderAuth } from 'components/molecules/HeaderAuth';
 import { VacancyCard } from 'components/organisms/VacancyCard';
-import { Header } from "components/organisms/Header";
+import { Header } from 'components/organisms/Header';
 import { PageTemplate } from 'components/templates/PageTemplate';
 
 const StyledPageTemplate = chakra(PageTemplate, {
@@ -35,7 +35,7 @@ const VacanciesPage = (): JSX.Element => {
       try {
         const data = await (() => {
           if (user) {
-            return getMatchingVacancies(user.id)
+            return getMatchingVacancies(user.id);
           } else {
             return getAllVacancies();
           }
@@ -51,16 +51,16 @@ const VacanciesPage = (): JSX.Element => {
   return (
     <StyledPageTemplate>
       <Header
-        leftChildren={(
-          <HStack spacing='75px'>
+        leftChildren={
+          <HStack spacing="75px">
             <Logo />
-            <Link href='/'>Главная</Link>
-            <Link href='/vacancies'>Вакансии</Link>
-            <Link href='/employers'>Работодателям</Link>
+            <Link href="/">Главная</Link>
+            <Link href="/vacancies">Вакансии</Link>
+            <Link href="/employers">Работодателям</Link>
           </HStack>
-        )}
+        }
         rightChildren={<HeaderAuth isHr={false} isAuthorized={Boolean(user)} />}
-        bgColor='transparent'
+        bgColor="transparent"
       />
 
       <Grid

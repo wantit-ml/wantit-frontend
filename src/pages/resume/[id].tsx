@@ -1,6 +1,4 @@
-import React, { useEffect, useState } from "react";
-
-import { GetServerSideProps } from "next";
+import React, { useEffect, useState } from 'react';
 
 import {
   chakra,
@@ -16,16 +14,16 @@ import {
   FormLabel,
 } from '@chakra-ui/react';
 
-import { AboutData, getAbout } from "api/user";
+import { AboutData, getAbout } from 'api/user';
 
 import { useHtmlClassname } from 'hooks/useHtmlClassname.hook';
-import { useUser } from "hooks/useUser.hook";
+import { useUser } from 'hooks/useUser.hook';
 
 import { Skills } from 'components/organisms/Skills';
 import { Languages } from 'components/organisms/Languages';
 import { PageTemplate } from 'components/templates/PageTemplate';
-import MDEditor from "@uiw/react-md-editor";
-import { mapGenderToText, mapMovingToText } from "../../util/mapToText.util";
+import MDEditor from '@uiw/react-md-editor';
+import { mapGenderToText, mapMovingToText } from '../../util/mapToText.util';
 
 const StyledPageTemplate = chakra(PageTemplate, {
   baseStyle: { padding: '0 50px' },
@@ -34,17 +32,17 @@ const StyledPageTemplate = chakra(PageTemplate, {
 const Row = ({ name, text }: { name: string; text: string }) => {
   return (
     <Text>
-      <Text color="gray.500" display="inline" as='span'>
+      <Text color="gray.500" display="inline" as="span">
         {name}:
-      </Text>{" "}
+      </Text>{' '}
       {text}
     </Text>
   );
 };
 
 const StyledMdEditor = chakra(MDEditor.Markdown, {
-  baseStyle: { width: '100%', mt: '15px !important', mb: '15px !important' }
-})
+  baseStyle: { width: '100%', mt: '15px !important', mb: '15px !important' },
+});
 
 const ResumePage = ({ id }: { id: string }): JSX.Element | null => {
   useUser({ redirectTo: '/employer/login' });
@@ -101,20 +99,28 @@ const ResumePage = ({ id }: { id: string }): JSX.Element | null => {
                 {resume.rank}
               </Heading>
 
-              <Row name="Пол" text={mapGenderToText[resume.gender]} />
+              <Row
+                name="Пол"
+                text={mapGenderToText[resume.gender as 'male' | 'female']}
+              />
               <Row name="Город" text={resume.city} />
-              <Row name="Переезд" text={mapMovingToText[resume.can_move]} />
+              <Row
+                name="Переезд"
+                text={
+                  mapMovingToText[
+                    resume.can_move as 'impossible' | 'unwanted' | 'possible'
+                  ]
+                }
+              />
             </Box>
 
-            <Center flexDirection="column" justifyContent='space-between'>
+            <Center flexDirection="column" justifyContent="space-between">
               {resume.telegram_id && (
-                <Row text={resume.telegram_id} name='Telegram' />
+                <Row text={resume.telegram_id} name="Telegram" />
               )}
-              {resume.vk_id && (
-                <Row text={resume.vk_id} name='Vk' />
-              )}
+              {resume.vk_id && <Row text={resume.vk_id} name="Vk" />}
               {resume.github_id && (
-                <Row text={resume.github_id} name='Github' />
+                <Row text={resume.github_id} name="Github" />
               )}
             </Center>
 
@@ -145,8 +151,10 @@ const ResumePage = ({ id }: { id: string }): JSX.Element | null => {
   );
 };
 
-export const getServerSideProps: GetServerSideProps<{ id: string }, { id: string }> = ({ params: { id } }) => {
+export const getServerSideProps: ({ params }: { params: { id: string } }) => {
+  props: { id: string };
+} = ({ params: { id } }) => {
   return { props: { id } };
-}
+};
 
 export default ResumePage;

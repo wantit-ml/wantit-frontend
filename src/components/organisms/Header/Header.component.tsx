@@ -2,9 +2,13 @@ import React from 'react';
 
 import { chakra, Flex } from '@chakra-ui/react';
 
-import { HeaderProps } from "./Header.interface";
+import { HeaderProps } from './Header.interface';
 
-export const Header = ({ bgColor, leftChildren, rightChildren }: HeaderProps): JSX.Element => {
+export const Header = ({
+  bgColor,
+  leftChildren,
+  rightChildren,
+}: HeaderProps): JSX.Element => {
   return (
     <chakra.header
       zIndex="15"
@@ -17,16 +21,12 @@ export const Header = ({ bgColor, leftChildren, rightChildren }: HeaderProps): J
       width="100%"
       bgColor={bgColor}
       p="12px"
-      paddingLeft='45px'
-      paddingRight='45px'
+      paddingLeft="45px"
+      paddingRight="45px"
     >
       <Flex>{leftChildren}</Flex>
 
-      {
-        rightChildren && (
-          <Flex alignItems='center'>{rightChildren}</Flex>
-        )
-      }
+      {rightChildren && <Flex alignItems="center">{rightChildren}</Flex>}
     </chakra.header>
   );
 };

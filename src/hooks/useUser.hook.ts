@@ -1,20 +1,19 @@
-import { useEffect } from "react";
-import { getMe } from "api/user";
+import { useEffect } from 'react';
+import { getMe } from 'api/user';
 
-import { useRouter } from "next/router";
+import { useRouter } from 'next/router';
 
-import { useAsync } from "./useAsync.hook";
+import { useAsync } from './useAsync.hook';
 
-type UseUserProps = (
-  {
-    shouldRedirect?: true;
-    redirectTo: string;
-  } |
-  {
-    shouldRedirect: false;
-    redirectTo?: undefined;
-  }
-)
+type UseUserProps =
+  | {
+      shouldRedirect?: true;
+      redirectTo: string;
+    }
+  | {
+      shouldRedirect: false;
+      redirectTo?: undefined;
+    };
 
 export const useUser = (props: UseUserProps) => {
   const { value: user, error, loading } = useAsync(getMe);

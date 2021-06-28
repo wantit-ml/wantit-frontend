@@ -1,12 +1,12 @@
 import { host } from './settings';
-import { VacancyDataWithId } from "./vacancy";
-import { AboutData } from "./user";
+import { VacancyDataWithId } from './vacancy';
+import { AboutData } from './user';
 
 export const getMatchingUsers = async (): Promise<AboutData[]> => {
   const response = await fetch(
     `${host}/matching/get_matching_users_for_all_vacancies`,
     {
-      credentials: 'include'
+      credentials: 'include',
     }
   );
 

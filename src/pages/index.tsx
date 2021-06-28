@@ -1,16 +1,16 @@
 import React from 'react';
 
-import { useRouter } from "next/router";
+import { useRouter } from 'next/router';
 import { default as Link } from 'next/link';
 
 import { useHtmlClassname } from 'hooks/useHtmlClassname.hook';
 
-import { Heading, Text, VStack, Button, HStack } from "@chakra-ui/react";
+import { Heading, Text, VStack, Button, HStack } from '@chakra-ui/react';
 
-import {Logo} from 'components/atoms/Logo';
-import { Header } from "components/organisms/Header";
+import { Logo } from 'components/atoms/Logo';
+import { Header } from 'components/organisms/Header';
 import { PageTemplate } from 'components/templates/PageTemplate';
-import { HeaderAuth } from "../components/molecules/HeaderAuth";
+import { HeaderAuth } from '../components/molecules/HeaderAuth';
 
 const EmployeesPage = () => {
   const router = useRouter();
@@ -20,16 +20,16 @@ const EmployeesPage = () => {
   return (
     <PageTemplate>
       <Header
-        leftChildren={(
-          <HStack spacing='75px'>
+        leftChildren={
+          <HStack spacing="75px">
             <Logo />
-            <Link href='/'>Главная</Link>
-            <Link href='/vacancies'>Вакансии</Link>
-            <Link href='/employers'>Работодателям</Link>
+            <Link href="/">Главная</Link>
+            <Link href="/vacancies">Вакансии</Link>
+            <Link href="/employers">Работодателям</Link>
           </HStack>
-        )}
+        }
         rightChildren={<HeaderAuth isHr={false} isAuthorized={false} />}
-        bgColor='transparent'
+        bgColor="transparent"
       />
 
       <VStack alignItems="flex-start" width="100%" padding="0 50px">

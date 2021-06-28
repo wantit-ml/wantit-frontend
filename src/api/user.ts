@@ -1,6 +1,6 @@
 import { host } from './settings';
 
-import {Languages} from 'types/Language.types';
+import { Languages } from 'types/Language.types';
 
 export type CreateUserData = {
   username: string;
@@ -16,7 +16,7 @@ export type User = {
   email: string;
   phone: string;
   role: string;
-}
+};
 
 export type LoginData = {
   username: string;
@@ -101,12 +101,12 @@ export const logout = async () => {
     credentials: 'include',
     method: 'GET',
   });
-}
+};
 
 export const getMe = async (): Promise<User> => {
   const response = await fetch(`${host}/user/get_user`, {
     credentials: 'include',
-    method: 'GET'
+    method: 'GET',
   });
 
   if (response.ok) {
@@ -114,7 +114,7 @@ export const getMe = async (): Promise<User> => {
   }
 
   throw new Error(await response.text());
-}
+};
 
 export const fillAbout = async (data: AboutData): Promise<string> => {
   const response = await fetch(`${host}/user/fill_about`, {
@@ -139,7 +139,7 @@ export const getAbout = async (
   const response = await fetch(
     `${host}/user/get_about?identifier=${identifier}`,
     {
-      credentials: 'include'
+      credentials: 'include',
     }
   );
 

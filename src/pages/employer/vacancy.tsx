@@ -1,14 +1,14 @@
 import React, { useState } from 'react';
 
-import { useRouter } from "next/router";
+import { useRouter } from 'next/router';
 
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
 
-import { useUser } from "hooks/useUser.hook";
+import { useUser } from 'hooks/useUser.hook';
 
-import { createVacancy } from "api/vacancy";
+import { createVacancy } from 'api/vacancy';
 
 import NumberFormat from 'react-number-format';
 import MDEditor from '@uiw/react-md-editor';
@@ -24,13 +24,13 @@ import {
 } from '@chakra-ui/react';
 
 import { Currency } from 'types/Currency.types';
-import { Languages as LanguagesTypes } from "types/Language.types";
-import { Employment } from "types/Schedule.types";
+import { Languages as LanguagesTypes } from 'types/Language.types';
+import { Employment } from 'types/Schedule.types';
 
 import { TextInput } from 'components/molecules/TextInput';
 import { Salary } from 'components/organisms/Salary';
 import { Skills } from 'components/organisms/Skills';
-import { Languages } from "components/organisms/Languages";
+import { Languages } from 'components/organisms/Languages';
 import { PageTemplate } from 'components/templates/PageTemplate';
 import { FormSection } from 'components/templates/FormSection';
 
@@ -113,7 +113,7 @@ const VacancyPage = (): JSX.Element => {
       type_of_vacancy: employment,
       stack: skills,
       currency,
-      author: ''
+      author: '',
     });
 
     await router.push('/resumes');
@@ -162,11 +162,11 @@ const VacancyPage = (): JSX.Element => {
           </FormControl>
         </FormSection>
 
-        <FormSection label='Дополнительно'>
+        <FormSection label="Дополнительно">
           <TextInput
-            label='Вакансия в городе'
-            id='city'
-            placeholder='Москва'
+            label="Вакансия в городе"
+            id="city"
+            placeholder="Москва"
             {...register('city')}
             error={errors.city?.message}
           />
@@ -178,7 +178,7 @@ const VacancyPage = (): JSX.Element => {
               Тип занятости
             </FormLabel>
             <RadioGroup
-              onChange={setEmployment}
+              onChange={(e: string) => setEmployment(e as Employment)}
               value={employment}
               id="employment"
             >

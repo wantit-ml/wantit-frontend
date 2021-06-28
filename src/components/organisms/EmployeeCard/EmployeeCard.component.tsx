@@ -2,8 +2,8 @@ import React from 'react';
 
 import { Heading, VStack, Text, chakra, Link, Box } from '@chakra-ui/react';
 
-import { mapGenderToText, mapMovingToText } from "util/mapToText.util";
-import { Currency, mapCurrencyToText } from "types/Currency.types";
+import { mapGenderToText, mapMovingToText } from 'util/mapToText.util';
+import { Currency, mapCurrencyToText } from 'types/Currency.types';
 
 import { EmployeeCardProps } from './EmployeeCard.interface';
 
@@ -12,7 +12,7 @@ const StyledLink = chakra(Link);
 const Row = ({ name, text }: { name: string; text: string }) => {
   return (
     <Text>
-      <Text color="gray.500" display="inline" as='span'>
+      <Text color="gray.500" display="inline" as="span">
         {name}:
       </Text>{' '}
       {text}
@@ -47,10 +47,14 @@ export const EmployeeCard = ({ employee }: EmployeeCardProps): JSX.Element => {
         </Heading>
 
         <Heading as="h4" size="sm" mb="30px !important">
-          {employee.rank}, {employee.salary} {mapCurrencyToText[employee.currency as Currency]}
+          {employee.rank}, {employee.salary}{' '}
+          {mapCurrencyToText[employee.currency as Currency]}
         </Heading>
 
-        <Row name="Пол" text={mapGenderToText[employee.gender as 'male' | 'female']} />
+        <Row
+          name="Пол"
+          text={mapGenderToText[employee.gender as 'male' | 'female']}
+        />
 
         <Text>
           <Text color="gray.500" display="inline">
@@ -64,7 +68,14 @@ export const EmployeeCard = ({ employee }: EmployeeCardProps): JSX.Element => {
         <Box height="30px" />
 
         <Row name="Город" text={employee.city} />
-        <Row name="Переезд" text={mapMovingToText[employee.can_move as 'possible' | 'impossible' | 'unwanted']} />
+        <Row
+          name="Переезд"
+          text={
+            mapMovingToText[
+              employee.can_move as 'possible' | 'impossible' | 'unwanted'
+            ]
+          }
+        />
 
         <StyledLink
           bg="blue.500"

@@ -1,24 +1,24 @@
 import React from 'react';
 
-import { Box, chakra, Heading, HStack, Text, VStack } from "@chakra-ui/react";
+import { Box, chakra, Heading, HStack, Text, VStack } from '@chakra-ui/react';
 
-import { GetServerSideProps } from "next";
-import { default as Link } from "next/link";
+import { GetServerSideProps } from 'next';
+import { default as Link } from 'next/link';
 
-import { getVacancyById } from "api/vacancy";
+import { getVacancyById } from 'api/vacancy';
 
 import { useHtmlClassname } from 'hooks/useHtmlClassname.hook';
-import { useUser } from "hooks/useUser.hook";
+import { useUser } from 'hooks/useUser.hook';
 
 import { mapCurrencyToText } from 'types/Currency.types';
-import { mapEmploymentToText } from "types/Schedule.types";
+import { Employment, mapEmploymentToText } from 'types/Schedule.types';
 import { Vacancy } from 'types/Vacancy.types';
 
-import MDEditor from "@uiw/react-md-editor";
+import MDEditor from '@uiw/react-md-editor';
 
-import { Logo } from "components/atoms/Logo";
-import { HeaderAuth } from "components/molecules/HeaderAuth";
-import { Header } from "components/organisms/Header";
+import { Logo } from 'components/atoms/Logo';
+import { HeaderAuth } from 'components/molecules/HeaderAuth';
+import { Header } from 'components/organisms/Header';
 import { PageTemplate } from 'components/templates/PageTemplate';
 
 type VacancyPageProps = {
@@ -30,13 +30,13 @@ const StyledPageTemplate = chakra(PageTemplate, {
 });
 
 const StyledMdEditor = chakra(MDEditor.Markdown, {
-  baseStyle: { width: '100%', mt: '30px !important' }
-})
+  baseStyle: { width: '100%', mt: '30px !important' },
+});
 
 const Row = ({ name, text }: { name: string; text: string }) => {
   return (
     <Text>
-      <Text color="gray.500" display="inline" as='span'>
+      <Text color="gray.500" display="inline" as="span">
         {name}:
       </Text>{' '}
       {text}
@@ -46,21 +46,21 @@ const Row = ({ name, text }: { name: string; text: string }) => {
 
 const VacancyPage = ({ vacancy }: VacancyPageProps): JSX.Element => {
   useHtmlClassname('with-feed-background');
-  const {user} = useUser({ shouldRedirect: false });
+  const { user } = useUser({ shouldRedirect: false });
 
   return (
     <StyledPageTemplate>
       <Header
-        leftChildren={(
-          <HStack spacing='75px'>
+        leftChildren={
+          <HStack spacing="75px">
             <Logo />
-            <Link href='/'>Главная</Link>
-            <Link href='/vacancies'>Вакансии</Link>
-            <Link href='/employers'>Работодателям</Link>
+            <Link href="/">Главная</Link>
+            <Link href="/vacancies">Вакансии</Link>
+            <Link href="/employers">Работодателям</Link>
           </HStack>
-        )}
+        }
         rightChildren={<HeaderAuth isHr={false} isAuthorized={Boolean(user)} />}
-        bgColor='transparent'
+        bgColor="transparent"
       />
 
       <Box position="relative" width="100%" minHeight="65vh" mb="30px">
@@ -89,16 +89,20 @@ const VacancyPage = ({ vacancy }: VacancyPageProps): JSX.Element => {
           </Heading>
 
           <Heading as="h3" size="lg" fontWeight="normal" mb="45px !important">
-            от {vacancy.salary} {mapCurrencyToText[vacancy.currency]} до вычета налогов
+            от {vacancy.salary} {mapCurrencyToText[vacancy.currency]} до вычета
+            налогов
           </Heading>
 
           <Heading as="h4" size="md" mb="10px !important">
             {vacancy.city}
           </Heading>
 
-          <Row name="Тип занятости" text={mapEmploymentToText[vacancy.type_of_vacancy]} />
-          <Row name='Телефон' text={vacancy.phone} />
-          <Row name='E-mail' text={vacancy.email} />
+          <Row
+            name="Тип занятости"
+            text={mapEmploymentToText[vacancy.type_of_vacancy as Employment]}
+          />
+          <Row name="Телефон" text={vacancy.phone} />
+          <Row name="E-mail" text={vacancy.email} />
 
           <StyledMdEditor source={vacancy.description} />
         </VStack>
@@ -109,7 +113,10 @@ const VacancyPage = ({ vacancy }: VacancyPageProps): JSX.Element => {
 
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
-export const getServerSideProps: GetServerSideProps<{ vacancy: Vacancy }, { id: string }> = async ({ params: { id } }) => {
+export const getServerSideProps: GetServerSideProps<
+  { vacancy: Vacancy },
+  { id: string }
+> = async ({ params: { id } }) => {
   const vacancy = await getVacancyById(id);
 
   return {

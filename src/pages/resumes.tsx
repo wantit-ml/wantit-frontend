@@ -1,19 +1,19 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState } from 'react';
 
-import { chakra, Grid, HStack } from "@chakra-ui/react";
+import { chakra, Grid, HStack } from '@chakra-ui/react';
 
-import { default as Link } from "next/link";
+import { default as Link } from 'next/link';
 
-import { AboutData } from "api/user";
-import { getMatchingUsers } from "api/matching";
+import { AboutData } from 'api/user';
+import { getMatchingUsers } from 'api/matching';
 
 import { useHtmlClassname } from 'hooks/useHtmlClassname.hook';
-import { useUser } from "hooks/useUser.hook";
+import { useUser } from 'hooks/useUser.hook';
 
-import { Logo } from "components/atoms/Logo";
-import { HeaderAuth } from "components/molecules/HeaderAuth";
+import { Logo } from 'components/atoms/Logo';
+import { HeaderAuth } from 'components/molecules/HeaderAuth';
 import { EmployeeCard } from 'components/organisms/EmployeeCard';
-import { Header } from "components/organisms/Header";
+import { Header } from 'components/organisms/Header';
 import { PageTemplate } from 'components/templates/PageTemplate';
 
 const StyledPageTemplate = chakra(PageTemplate, {
@@ -44,17 +44,17 @@ const VacanciesPage = (): JSX.Element => {
   return (
     <StyledPageTemplate>
       <Header
-        leftChildren={(
-          <HStack spacing='75px'>
+        leftChildren={
+          <HStack spacing="75px">
             <Logo />
-            <Link href='/'>Главная</Link>
-            <Link href='/resumes'>Резюме</Link>
-            <Link href='/employers'>Работодателям</Link>
-            <Link href='/employer/vacancy'>Новая вакансия</Link>
+            <Link href="/">Главная</Link>
+            <Link href="/resumes">Резюме</Link>
+            <Link href="/employers">Работодателям</Link>
+            <Link href="/employer/vacancy">Новая вакансия</Link>
           </HStack>
-        )}
+        }
         rightChildren={<HeaderAuth isHr={true} isAuthorized={true} />}
-        bgColor='transparent'
+        bgColor="transparent"
       />
 
       <Grid

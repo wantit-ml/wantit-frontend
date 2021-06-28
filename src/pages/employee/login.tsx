@@ -1,19 +1,19 @@
 import React from 'react';
 
-import { useRouter } from "next/router";
-import { default as Link } from "next/link";
+import { useRouter } from 'next/router';
+import { default as Link } from 'next/link';
 
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
 
-import { getAbout, login } from "api/user";
+import { getAbout, login } from 'api/user';
 
-import { Center, HStack } from "@chakra-ui/react";
+import { Center, HStack } from '@chakra-ui/react';
 
-import { Logo } from "components/atoms/Logo";
+import { Logo } from 'components/atoms/Logo';
 import { TextInput } from 'components/molecules/TextInput';
-import { Header } from "components/organisms/Header";
+import { Header } from 'components/organisms/Header';
 import { PageTemplate } from 'components/templates/PageTemplate';
 import { AuthForm } from 'components/templates/AuthForm';
 
@@ -40,7 +40,11 @@ const EmployeeLoginPage = (): JSX.Element => {
 
   const onSubmit = handleSubmit(async (data) => {
     try {
-      const { id } = await login({ username: data.login, password: data.password, role: 'user' });
+      const { id } = await login({
+        username: data.login,
+        password: data.password,
+        role: 'user',
+      });
 
       try {
         await getAbout(id);
@@ -58,13 +62,13 @@ const EmployeeLoginPage = (): JSX.Element => {
   return (
     <PageTemplate>
       <Header
-        leftChildren={(
-          <HStack spacing='75px'>
+        leftChildren={
+          <HStack spacing="75px">
             <Logo />
-            <Link href='/'>Главная</Link>
+            <Link href="/">Главная</Link>
           </HStack>
-        )}
-        bgColor='transparent'
+        }
+        bgColor="transparent"
       />
 
       <Center width="100%" height="100%" paddingLeft="50px" paddingRight="50px">

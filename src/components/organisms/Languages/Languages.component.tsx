@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { VStack, HStack, Select, Button, Text } from '@chakra-ui/react';
+import { VStack, HStack, Select, Button } from '@chakra-ui/react';
 import { DeleteIcon } from '@chakra-ui/icons';
 
 import type { Languages as LanguagesType } from 'types/Language.types';
@@ -65,11 +65,15 @@ export const Languages = (props: LanguagesProps): JSX.Element => {
     <VStack alignItems="flex-start">
       {languages.map((language, idx) => (
         <HStack spacing="5px" key={language}>
-          <Select value={language} onChange={handleLanguageChange(idx)} disabled={props.readonly}>
+          <Select
+            value={language}
+            onChange={handleLanguageChange(idx)}
+            disabled={props.readonly}
+          >
             {languagesToAdd.concat([language]).map((l) => (
-                <option value={l} key={l}>
-                  {mapLanguageToText[l]}
-                </option>
+              <option value={l} key={l}>
+                {mapLanguageToText[l]}
+              </option>
             ))}
           </Select>
 

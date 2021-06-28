@@ -1,14 +1,14 @@
 import React from 'react';
 
-import { createUser } from "api/user";
+import { createUser } from 'api/user';
 
-import { useRouter } from "next/router";
+import { useRouter } from 'next/router';
 
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
 
-import NumberFormat from "react-number-format";
+import NumberFormat from 'react-number-format';
 import { Center } from '@chakra-ui/react';
 
 import { TextInput } from 'components/molecules/TextInput';
@@ -45,7 +45,17 @@ const EmployerRegisterPage = (): JSX.Element => {
 
   const onSubmit = handleSubmit(async (data) => {
     try {
-      await createUser({ email: data.email, username: data.login, phone: data.phone.replaceAll(' ', '').replaceAll('-', '').replaceAll('(', '').replaceAll(')', ''), password: data.password, role: 'hr' });
+      await createUser({
+        email: data.email,
+        username: data.login,
+        phone: data.phone
+          .replaceAll(' ', '')
+          .replaceAll('-', '')
+          .replaceAll('(', '')
+          .replaceAll(')', ''),
+        password: data.password,
+        role: 'hr',
+      });
       await router.push('/employer/login');
     } catch (e) {
       console.error(e);
@@ -104,16 +114,16 @@ const EmployerRegisterPage = (): JSX.Element => {
             }}
           />
           <TextInput
-          id="email"
-          label="E-mail"
-          placeholder="example@gmail.com"
-          bgColor="white"
-          color="black"
-          labelColor="white"
-          type="email"
-          {...register('email')}
-          error={errors.email?.message}
-        />
+            id="email"
+            label="E-mail"
+            placeholder="example@gmail.com"
+            bgColor="white"
+            color="black"
+            labelColor="white"
+            type="email"
+            {...register('email')}
+            error={errors.email?.message}
+          />
         </AuthForm>
       </Center>
     </PageTemplate>

@@ -8,12 +8,11 @@ import { VacancyCardProps } from './VacancyCard.interface';
 const StyledLink = chakra(Link);
 const StyledMDView = chakra(MDEditor.Markdown, {
   baseStyle: {
-    maxHeight: "160px",
-    width: "100%",
+    width: '100%',
     maxHeight: '160px',
-    overflow: 'hidden'
-  }
-})
+    overflow: 'hidden',
+  },
+});
 
 export const VacancyCard = ({ vacancy }: VacancyCardProps): JSX.Element => {
   return (
@@ -44,13 +43,9 @@ export const VacancyCard = ({ vacancy }: VacancyCardProps): JSX.Element => {
             {vacancy.title}
           </Heading>
           <Text>{vacancy.author}</Text>
-          <Text>
-            {vacancy.city}
-          </Text>
+          <Text>{vacancy.city}</Text>
 
-          <StyledMDView
-            source={vacancy.description}
-          />
+          <StyledMDView source={vacancy.description} />
         </VStack>
 
         <StyledLink
